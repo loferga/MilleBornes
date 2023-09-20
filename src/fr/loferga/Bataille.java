@@ -1,6 +1,6 @@
 package fr.loferga;
 
-public class Bataille extends Probleme {
+public abstract class Bataille extends Probleme {
 
 	protected Bataille(int nombre, Type type) {
 		super(nombre, type);

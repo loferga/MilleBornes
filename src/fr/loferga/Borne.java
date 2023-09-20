@@ -16,4 +16,12 @@ public class Borne extends Carte {
 		this.km = km;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		str.append(km);
+		str.append(" BORNES");
+		return str.toString();
+	}
+	
 }

@@ -6,5 +6,21 @@ public class Attaque extends Bataille {
 		super(nombre, type);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	@Override
+	public String toString() {
+		switch(super.getType()) {
+		case FEU:
+			return "FEU ROUGE";
+		case ESSENCE:
+			return "PANNE D'ESSENCE";
+		case CREVAISON:
+			return "CREVAISON";
+		case ACCIDENT:
+			return "ACCIDENT";
+		default:
+			return "Invalid";
+		}
+	}
+	
 }
