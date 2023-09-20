@@ -46,11 +46,12 @@ public class Sabot implements Iterable<Carte> {
 	public Iterator<Carte> iterator() {
 		return new Iterator<Carte>() {
 			
-			private int i = -1;
+			private int i = 0;
+			private boolean doneNext = false;
 
 			@Override
 			public boolean hasNext() {
-				return i<nbCartes-1;
+				return i<nbCartes;
 			}
 
 			@Override
@@ -58,18 +59,21 @@ public class Sabot implements Iterable<Carte> {
 				if (!hasNext()) {
 					throw new NoSuchElementException();
 				}
+				Carte toReturn = cartes[i];
 				i++;
-				return cartes[i];
+				doneNext = true;
+				return toReturn;
 			}
 			
 			@Override
 			public void remove() {
-				if (i<0 || i>nbCartes) {
+				if (nbCartes<1 || !doneNext) {
 					throw new UnsupportedOperationException();
 				}
-				for (int j = i; j<nbCartes-1; j++) {
+				for (int j = i-1; j<nbCartes-1; j++) {
 					cartes[j] = cartes[j+1];
 				}
+				doneNext = false;
 				nbCartes--;
 				i--;
 			}
