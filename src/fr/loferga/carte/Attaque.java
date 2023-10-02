@@ -1,4 +1,4 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public class Attaque extends Bataille {
 
@@ -21,6 +21,13 @@ public class Attaque extends Bataille {
 		default:
 			return "Invalid";
 		}
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return
+				other instanceof Attaque atk &&
+				super.getType() == atk.getType();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public abstract class Probleme extends Carte {
 	
@@ -20,4 +20,5 @@ public abstract class Probleme extends Carte {
 	public void setType(Type type) {
 		this.type = type;
 	}
+	
 }

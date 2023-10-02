@@ -2,11 +2,11 @@ package fr.loferga.test_fonctionnels;
 
 import java.util.Iterator;
 
-import fr.loferga.Attaque;
-import fr.loferga.Botte;
-import fr.loferga.Carte;
-import fr.loferga.Parade;
-import fr.loferga.Probleme.Type;
+import fr.loferga.carte.Attaque;
+import fr.loferga.carte.Botte;
+import fr.loferga.carte.Carte;
+import fr.loferga.carte.Parade;
+import fr.loferga.carte.Probleme.Type;
 import fr.loferga.jeu.Sabot;
 
 public class Test {

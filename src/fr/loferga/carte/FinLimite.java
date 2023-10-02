@@ -1,4 +1,4 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public class FinLimite extends Limite {
 
@@ -10,6 +10,12 @@ public class FinLimite extends Limite {
 	@Override
 	public String toString() {
 		return "FIN DE LIMITE DE VITESSE";
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		// TODO
+		return true;
 	}
 	
 }

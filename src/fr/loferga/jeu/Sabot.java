@@ -1,16 +1,16 @@
 package fr.loferga.jeu;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import fr.loferga.Carte;
-import fr.loferga.Parade;
-import fr.loferga.Probleme.Type;
+import fr.loferga.carte.Carte;
 
 public class Sabot implements Iterable<Carte> {
 	
 	private Carte[] cartes;
 	private int nbCartes;
+	private int nbOperations = 0;
 
 	public Sabot(int cartesMax) {
 		this.cartes = new Carte[cartesMax];
@@ -26,6 +26,7 @@ public class Sabot implements Iterable<Carte> {
 		}
 		cartes[nbCartes] = carte;
 		nbCartes++;
+		nbOperations++;
 	}
 	
 	public void ajouterFamilleCarte(Carte carte) {
@@ -40,45 +41,59 @@ public class Sabot implements Iterable<Carte> {
 		}
 	}
 	
+	/* ==================================================
+	 *                     ITERATOR
+	 * ==================================================
+	 */
+	
+	public class IteratorSabot implements Iterator<Carte> {
 
+		private int i = 0;
+		private int nbOperationsRef = nbOperations;
+		private boolean nextDone = false;
+
+		@Override
+		public boolean hasNext() {
+			return i<nbCartes;
+		}
+		
+		private void verifConcurrence() {
+			if (nbOperationsRef != nbOperations)
+				throw new ConcurrentModificationException();
+		}
+
+		@Override
+		public Carte next() {
+			verifConcurrence();
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			Carte toReturn = cartes[i];
+			i++;
+			nextDone = true;
+			return toReturn;
+		}
+		
+		@Override
+		public void remove() {
+			verifConcurrence();
+			if (nbCartes<1 || !nextDone) {
+				throw new UnsupportedOperationException();
+			}
+			for (int j = i-1; j<nbCartes-1; j++) {
+				cartes[j] = cartes[j+1];
+			}
+			nextDone = false;
+			nbOperationsRef++; nbOperations++;
+			nbCartes--;
+			i--;
+		}
+		
+	}
 	
 	@Override
 	public Iterator<Carte> iterator() {
-		return new Iterator<Carte>() {
-			
-			private int i = 0;
-			private boolean doneNext = false;
-
-			@Override
-			public boolean hasNext() {
-				return i<nbCartes;
-			}
-
-			@Override
-			public Carte next() {
-				if (!hasNext()) {
-					throw new NoSuchElementException();
-				}
-				Carte toReturn = cartes[i];
-				i++;
-				doneNext = true;
-				return toReturn;
-			}
-			
-			@Override
-			public void remove() {
-				if (nbCartes<1 || !doneNext) {
-					throw new UnsupportedOperationException();
-				}
-				for (int j = i-1; j<nbCartes-1; j++) {
-					cartes[j] = cartes[j+1];
-				}
-				doneNext = false;
-				nbCartes--;
-				i--;
-			}
-			
-		};
+		return new IteratorSabot();
 	}
 	
 	public Carte piocher() {
@@ -86,23 +101,6 @@ public class Sabot implements Iterable<Carte> {
 		Carte toReturn = it.next();
 		it.remove();
 		return toReturn;
-	}
-	
-	// Test
-	public void print() {
-		for (int i = 0; i<nbCartes; i++)
-			System.out.println(cartes[i]);
-	}
-	
-	public static void main(String[] args) {
-		Sabot sabot = new Sabot(110);
-		sabot.ajouterFamilleCarte(new Parade(6, Type.ACCIDENT));
-		System.out.println("-- BEFORE --");
-		sabot.print();
-		System.out.println("-- PIOCHER --");
-		System.out.println(sabot.piocher());
-		System.out.println("-- AFTER --");
-		sabot.print();
 	}
 	
 }

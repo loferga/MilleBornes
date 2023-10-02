@@ -1,6 +1,7 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public class Borne extends Carte {
+	
 	private int km;
 
 	public Borne(int nombre, int km) {
@@ -22,6 +23,13 @@ public class Borne extends Carte {
 		str.append(km);
 		str.append(" BORNES");
 		return str.toString();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return
+				other instanceof Borne brn &&
+				this.km == brn.km;
 	}
 	
 }

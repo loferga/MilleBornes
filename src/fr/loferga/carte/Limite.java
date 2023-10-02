@@ -1,4 +1,4 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public abstract class Limite extends Carte {
 

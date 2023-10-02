@@ -1,4 +1,4 @@
-package fr.loferga;
+package fr.loferga.carte;
 
 public class Botte extends Probleme {
 
@@ -21,6 +21,13 @@ public class Botte extends Probleme {
 		default:
 			return "Invalid";
 		}
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return
+				other instanceof Botte bte &&
+				super.getType() == bte.getType();
 	}
 
 }
