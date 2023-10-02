@@ -1,4 +1,4 @@
-package fr.loferga.testFonctionnels;
+package fr.loferga.test_fonctionnels;
 
 import java.util.Iterator;
 
