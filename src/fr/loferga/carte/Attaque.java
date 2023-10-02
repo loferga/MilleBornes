@@ -27,7 +27,7 @@ public class Attaque extends Bataille {
 	public boolean equals(Object other) {
 		return
 				other instanceof Attaque atk &&
-				super.getType() == atk.getType();
+				super.equalsProbleme(atk);
 	}
 	
 }

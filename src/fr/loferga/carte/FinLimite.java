@@ -14,8 +14,7 @@ public class FinLimite extends Limite {
 	
 	@Override
 	public boolean equals(Object other) {
-		// TODO
-		return true;
+		return other instanceof FinLimite;
 	}
 	
 }

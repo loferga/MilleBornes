@@ -21,4 +21,8 @@ public abstract class Probleme extends Carte {
 		this.type = type;
 	}
 	
+	protected boolean equalsProbleme(Probleme pb) {
+		return this.type == pb.type;
+	}
+	
 }

@@ -27,7 +27,7 @@ public class Parade extends Bataille {
 	public boolean equals(Object other) {
 		return
 				other instanceof Parade parry &&
-				super.getType() == parry.getType();
+				super.equalsProbleme(parry);
 	}
 	
 }

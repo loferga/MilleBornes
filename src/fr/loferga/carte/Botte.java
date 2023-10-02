@@ -27,7 +27,7 @@ public class Botte extends Probleme {
 	public boolean equals(Object other) {
 		return
 				other instanceof Botte bte &&
-				super.getType() == bte.getType();
+				super.equalsProbleme(bte);
 	}
 
 }
