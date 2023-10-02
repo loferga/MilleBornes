@@ -9,7 +9,7 @@ import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.jeu.Sabot;
 
-public class Test {
+public class TestSabot {
 	
 	public static void main(String[] args) {
 		Sabot sabot = new Sabot(110);
