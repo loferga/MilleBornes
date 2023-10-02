@@ -1,10 +1,7 @@
 package fr.loferga.test_fonctionnels;
 
-import java.util.Iterator;
-
 import fr.loferga.carte.Attaque;
 import fr.loferga.carte.Botte;
-import fr.loferga.carte.Carte;
 import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.jeu.Sabot;
@@ -18,10 +15,11 @@ public class TestSabot {
 				new Parade(3, Type.ACCIDENT),
 				new Botte(1, Type.ACCIDENT)
 				);
-		Iterator<Carte> it = sabot.iterator();
-		while (it.hasNext()) {
-			System.out.println("je pioche " + sabot.piocher());			
+		while (!sabot.estVide()) {
+			System.out.println("Je pioche " + sabot.piocher()) ;
 		}
+		sabot.ajouterFamilleCarte(new Attaque(2, Type.ACCIDENT));
+		System.out.println("carte: " + sabot.piocher());
 	}
 	
 }
