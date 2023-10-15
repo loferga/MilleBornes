@@ -1,6 +1,6 @@
 package fr.loferga.carte;
 
-public class Attaque extends Bataille {
+public class Attaque extends Bataille implements Cloneable {
 
 	public Attaque(int nombre, Type type) {
 		super(nombre, type);
@@ -28,6 +28,11 @@ public class Attaque extends Bataille {
 		return
 				other instanceof Attaque atk &&
 				super.equalsProbleme(atk);
+	}
+	
+	@Override
+	public Attaque clone() {
+		return new Attaque(super.getNombre(), super.getType());
 	}
 	
 }

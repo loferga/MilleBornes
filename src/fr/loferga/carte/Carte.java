@@ -16,6 +16,6 @@ public abstract class Carte {
 	}
 	
 	@Override
-	abstract public boolean equals(Object other);
+	public abstract boolean equals(Object other);
 	
 }

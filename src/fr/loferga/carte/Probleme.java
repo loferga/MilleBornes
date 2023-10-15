@@ -2,7 +2,7 @@ package fr.loferga.carte;
 
 public abstract class Probleme extends Carte {
 	
-	public static enum Type {
+	public enum Type {
 		FEU, ESSENCE, CREVAISON, ACCIDENT;
 	}
 	

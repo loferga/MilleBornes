@@ -1,14 +1,15 @@
 package fr.loferga.utils;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class Utils {
 	
@@ -19,6 +20,14 @@ public class Utils {
 		return l.remove(randomIndex);
 	}
 	
+	public static <T> T extraireIterator(List<T> l) {
+		int randomIndex = rng.nextInt(l.size());
+		ListIterator<T> it = l.listIterator(randomIndex);
+		T e = it.next();
+		it.remove();
+		return e;
+	}
+	
 	public static <T> List<T> melanger(List<T> l) {
 		List<T> melange = new LinkedList<>();
 		while (!l.isEmpty())
@@ -27,14 +36,29 @@ public class Utils {
 	}
 	
 	public static <T> boolean verifierMelange(List<T> l1, List<T> l2) {
+		// foreach.x in l1, count(l1, x) == count(l2, x)
+		for (T e : l1)
+			if (Collections.frequency(l1, e) != Collections.frequency(l2, e))
+				return false;
+		return true;
+	}
+	
+	public static <T> boolean verifierMelangeEfficace(List<T> l1, List<T> l2) {
 		List<T> alreadyChecked = new LinkedList<>();
-		for (T t : l1) {
-			if (!alreadyChecked.contains(t))
-				if (Collections.frequency(l1, t) != Collections.frequency(l1, t)) {
+		for (T e : l1) {
+			if (!alreadyChecked.contains(e)) {
+				if (Collections.frequency(l1, e) != Collections.frequency(l2, e)) {
 					return false;
-				} else alreadyChecked.add(t);
+				} else {
+					alreadyChecked.add(e);
+				}
+			}
 		}
 		return true;
+	}
+	
+	public static <T> List<T> rassembler(List<T> l) {
+		return l.stream().sorted().toList();
 	}
 	
 	private static <T> List<T> buildFromMap(Map<T, Integer> map) {
@@ -45,16 +69,16 @@ public class Utils {
 		return res;
 	}
 	
-	public static <T> List<T> rassembler(List<T> l) {
-		SortedMap<T, Integer> valueSlots = new TreeMap<>(); 
-		for (T t : l) {
-			if (valueSlots.containsKey(t)) {
-				valueSlots.replace(t, valueSlots.get(t) + 1);
+	public static <T> List<T> rassemblerEfficace(List<T> l) {
+		Map<T, Integer> occurences = new HashMap<>();
+		for (T e : l) {
+			if (occurences.containsKey(e)) {
+				occurences.replace(e, occurences.get(e) + 1);
 			} else {
-				valueSlots.put(t, 1);
+				occurences.put(e, 1);
 			}
 		}
-		return buildFromMap(valueSlots);
+		return buildFromMap(occurences);
 	}
 	
 	public static <T> boolean verifierRassemblement(List<T> l) {
@@ -74,17 +98,6 @@ public class Utils {
 			}
 		}
 		return true;
-	}
-	
-	public static void main(String[] args) {
-		List<Integer> l = new LinkedList<>();
-		l.add(1);
-		l.add(2);
-		l.add(1);
-		l.add(5);
-		System.out.println(rassembler(l));
-		System.out.println(verifierRassemblement(l));
-		System.out.println(verifierRassemblement(rassembler(l)));
 	}
 	
 }

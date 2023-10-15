@@ -1,13 +1,18 @@
 package fr.loferga.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import fr.loferga.carte.Carte;
+import fr.loferga.carte.JeuDeCartes;
 
 class UtilsTest {
 	
@@ -18,25 +23,23 @@ class UtilsTest {
 
 	@BeforeEach
 	void setUpBeforeEach() throws Exception {
-		l2.add(1); l2.add(1); l2.add(2); l2.add(1); l2.add(3);
-		l3.add(1); l3.add(4); l3.add(3); l3.add(2);
-		l4.add(1); l4.add(1); l4.add(2); l4.add(3); l4.add(1);
-	}
-	
-	private <T> boolean melangeValide(List<T> l1, List<T> l2) {
-		// foreach.x in l1, count(l1, x) == count(l2, x)
-		for (T t : l1)
-			if (Collections.frequency(l1, t) != Collections.frequency(l2, t))
-				return false;
-		return true;
+		Collections.addAll(l2, 1, 1, 2, 1, 3);
+		Collections.addAll(l3, 1, 4, 3, 2);
+		Collections.addAll(l4, 1, 1, 2, 3, 1);
 	}
 
 	@Test
 	void test_melanger() {
-		assertEquals(Utils.verifierMelange(l1, Utils.melanger(l1)), melangeValide(l1, Utils.melanger(l1)));
-		assertEquals(Utils.verifierMelange(l2, Utils.melanger(l2)), melangeValide(l2, Utils.melanger(l2)));
-		assertEquals(Utils.verifierMelange(l3, Utils.melanger(l3)), melangeValide(l3, Utils.melanger(l3)));
-		assertEquals(Utils.verifierMelange(l4, Utils.melanger(l4)), melangeValide(l4, Utils.melanger(l4)));
+		JeuDeCartes jeu = new JeuDeCartes();
+		List<Carte> defCartes = jeu.getCartes();
+		List<Carte> melangerCartes = new ArrayList<>();
+		melangerCartes.addAll(defCartes);
+		assertTrue(Utils.verifierMelange(defCartes, Utils.melanger(melangerCartes)));
+		
+		assertTrue(Utils.verifierMelange(l1, Utils.melanger(l1)));
+		assertTrue(Utils.verifierMelange(l2, Utils.melanger(l2)));
+		assertTrue(Utils.verifierMelange(l3, Utils.melanger(l3)));
+		assertTrue(Utils.verifierMelange(l4, Utils.melanger(l4)));
 	}
 	
 	@Test
