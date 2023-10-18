@@ -19,9 +19,9 @@ public class Utils {
 		return l.remove(randomIndex);
 	}
 	
-	public static <T> T extraireIterator(List<T> l) {
-		int randomIndex = rng.nextInt(l.size());
-		ListIterator<T> it = l.listIterator(randomIndex);
+	public static <T> T extraireIterator(List<T> list) {
+		int randomIndex = rng.nextInt(list.size());
+		ListIterator<T> it = list.listIterator(randomIndex);
 		T e = it.next();
 		it.remove();
 		return e;
@@ -36,6 +36,8 @@ public class Utils {
 	
 	public static <T> boolean verifierMelange(List<T> l1, List<T> l2) {
 		// foreach.x in l1, count(l1, x) == count(l2, x)
+		if (l1.size() != l2.size()) return false;
+		
 		for (T e : l1)
 			if (Collections.frequency(l1, e) != Collections.frequency(l2, e))
 				return false;
@@ -43,6 +45,9 @@ public class Utils {
 	}
 	
 	public static <T> boolean verifierMelangeEfficace(List<T> l1, List<T> l2) {
+		//TODO 
+		if (l1.size() != l2.size()) return false;
+		
 		List<T> alreadyChecked = new LinkedList<>();
 		for (T e : l1) {
 			if (!alreadyChecked.contains(e)) {
@@ -82,10 +87,10 @@ public class Utils {
 	
 	public static <T> boolean verifierRassemblement(List<T> l) {
 		List<T> parcourus = new LinkedList<>();
-		Iterator<T> it = l.iterator();
-		if (!it.hasNext()) return true;
+		if (l.isEmpty()) return true;
 		
-		T dernier = it.next();
+		T dernier = l.get(0);
+		ListIterator<T> it = l.listIterator(1);
 		while (it.hasNext()) {
 			T next = it.next();
 			
@@ -97,6 +102,13 @@ public class Utils {
 			}
 		}
 		return true;
+	}
+	
+	public static <E, T extends Iterable<E>> boolean contains(T iterable, E elementCherche) {
+		for (E element : iterable)
+			if (element.equals(elementCherche))
+				return true;
+		return false;
 	}
 	
 }

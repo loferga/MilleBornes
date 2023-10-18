@@ -14,7 +14,7 @@ public class DebutLimite extends Limite {
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof DebutLimite;
+		return super.equals(other);
 	}
 	
 }

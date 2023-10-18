@@ -16,6 +16,8 @@ public abstract class Carte {
 	}
 	
 	@Override
-	public abstract boolean equals(Object other);
+	public boolean equals(Object other) {
+		return other != null && other.getClass() == this.getClass();
+	}
 	
 }

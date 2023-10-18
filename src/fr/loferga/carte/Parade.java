@@ -25,9 +25,10 @@ public class Parade extends Bataille {
 
 	@Override
 	public boolean equals(Object other) {
-		return
-				other instanceof Parade parry &&
-				super.equalsProbleme(parry);
+		if (!super.equals(other)) return false;
+		
+		Parade parade = (Parade) other;
+		return super.equalsProbleme(parade);
 	}
 	
 }

@@ -25,9 +25,9 @@ public class Botte extends Probleme {
 	
 	@Override
 	public boolean equals(Object other) {
-		return
-				other instanceof Botte bte &&
-				super.equalsProbleme(bte);
+		if (!super.equals(other)) return false;
+		Botte botte = (Botte) other;
+		return super.equalsProbleme(botte);
 	}
 
 }

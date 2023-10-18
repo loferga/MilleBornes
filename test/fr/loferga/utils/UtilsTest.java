@@ -20,14 +20,14 @@ class UtilsTest {
 	private List<Integer> l2 = new LinkedList<>();
 	private List<Integer> l3 = new LinkedList<>();
 	private List<Integer> l4 = new LinkedList<>();
-
+	
 	@BeforeEach
 	void setUpBeforeEach() throws Exception {
 		Collections.addAll(l2, 1, 1, 2, 1, 3);
 		Collections.addAll(l3, 1, 4, 3, 2);
 		Collections.addAll(l4, 1, 1, 2, 3, 1);
 	}
-
+	
 	@Test
 	void test_melanger() {
 		JeuDeCartes jeu = new JeuDeCartes();

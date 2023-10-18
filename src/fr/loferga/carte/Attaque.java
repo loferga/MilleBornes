@@ -25,14 +25,10 @@ public class Attaque extends Bataille implements Cloneable {
 	
 	@Override
 	public boolean equals(Object other) {
-		return
-				other instanceof Attaque atk &&
-				super.equalsProbleme(atk);
-	}
-	
-	@Override
-	public Attaque clone() {
-		return new Attaque(super.getNombre(), super.getType());
+		if (!super.equals(other)) return false;
+		
+		Attaque atk = (Attaque) other;
+		return super.equalsProbleme(atk);
 	}
 	
 }

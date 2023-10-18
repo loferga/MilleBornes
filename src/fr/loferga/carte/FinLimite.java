@@ -14,7 +14,7 @@ public class FinLimite extends Limite {
 	
 	@Override
 	public boolean equals(Object other) {
-		return other instanceof FinLimite;
+		return super.equals(other);
 	}
 	
 }

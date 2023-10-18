@@ -2,6 +2,7 @@ package fr.loferga.carte;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import fr.loferga.carte.Probleme.Type;
@@ -9,7 +10,7 @@ import fr.loferga.utils.Utils;
 
 public class JeuDeCartes {
 	
-	private final Carte[] typesDeCartes = {
+	private static final Carte[] typesDeCartes = {
 		new Attaque(3, Type.ACCIDENT),
 		new Attaque(3, Type.CREVAISON),
 		new Attaque(3, Type.ESSENCE),
@@ -57,9 +58,39 @@ public class JeuDeCartes {
 		return true;
 	}
 	
+	// renvoie le nombre d'occurence de carteCherchee
+	private int getNumberOf(Carte carteCherchee) {
+		int count = 0;
+		for (Carte carte : listeCartes) {
+			if (carte.equals(carteCherchee)) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	public boolean checkCountEfficace() {
+		// les elements qui ont déjà été testés
+		List<Carte> comptees = new LinkedList<>();
+		for (Carte c : listeCartes) {
+			// si il n'a pas encore été testé
+			if (!comptees.contains(c)) {
+				if (c.getNombre() == getNumberOf(c)) {
+					comptees.add(c);
+				} else {
+					return false;
+				}
+			}
+		}
+		// si aucun test n'as abouti à un return false alors:
+		return true;
+	}
+	
 	public static void main(String[] args) {
 		JeuDeCartes jeu = new JeuDeCartes();
 		System.out.println(jeu.getCartes());
+		System.out.println(jeu.checkCount());
+		System.out.println(jeu.checkCountEfficace());
 	}
 	
 }
