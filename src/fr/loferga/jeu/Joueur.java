@@ -61,35 +61,44 @@ public class Joueur {
 	}
 	
 	private boolean limiteParAttaque() {
+		if (batailles.isEmpty()) return false;
+		
 		Bataille derniereBataille = batailles.depiler();
-		if (derniereBataille.getClass() == Attaque.class)
-			if (!possedeBotte(derniereBataille.getType()))
-				return true;
+		if (derniereBataille.getClass() == Attaque.class && // derniereBataille est une Attaque
+				!possedeBotte(derniereBataille.getType())) // le joueur n'est pas immunisé contre cette Attaque
+			return true;
 		return false;
 	}
 	
 	private boolean limiteParLimite() {
+		if (limites.isEmpty()) return false;
+		
 		Limite derniereLimite = limites.depiler();
-		if (derniereLimite.getClass() == DebutLimite.class)
-			if (!possedeBotte(Type.FEU))
-				return true;
+		if (derniereLimite.getClass() == DebutLimite.class &&
+				!possedeBotte(Type.FEU))
+			return true;
 		return false;
 	}
 	
 	public int getLimite() {
-			
-		return 1;
+		if (limiteParAttaque()) return 0;
+		if (limiteParLimite()) return 50;
+		return 200;
+	}
+	
+	public boolean estBloque() {
+		return limiteParAttaque();
 	}
 	
 	public Main getMain() {
 		return main;
 	}
 
-	public List<Limite> getLimites() {
+	public Pile<Limite> getLimites() {
 		return limites;
 	}
 
-	public List<Bataille> getBatailles() {
+	public Pile<Bataille> getBatailles() {
 		return batailles;
 	}
 
