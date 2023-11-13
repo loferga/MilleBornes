@@ -1,10 +1,18 @@
 package fr.loferga.carte;
 
-public class Attaque extends Bataille implements Cloneable {
+import fr.loferga.jeu.Joueur;
+
+public class Attaque extends Bataille {
 
 	public Attaque(int nombre, Type type) {
 		super(nombre, type);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean appliquer(Joueur j) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	@Override

@@ -1,11 +1,15 @@
 package fr.loferga.utils;
 
-import java.util.List;
-
-public interface Pile<T> extends List<T> {
+public interface Pile<T> {
+	
+	void empiler(T e);
+	
+	T sommet();
 	
 	T depiler();
 	
-	void empiler(T e);
+	boolean isEmpty();
+	
+	int size();
 
 }

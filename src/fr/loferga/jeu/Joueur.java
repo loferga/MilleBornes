@@ -12,6 +12,7 @@ import fr.loferga.carte.Borne;
 import fr.loferga.carte.Botte;
 import fr.loferga.carte.Carte;
 import fr.loferga.carte.DebutLimite;
+import fr.loferga.carte.FinLimite;
 import fr.loferga.carte.Limite;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.utils.Pile;
@@ -41,8 +42,7 @@ public class Joueur {
 	
 	public Carte prendreCarte(List<Carte> sabot) {
 		if (sabot.isEmpty()) return null;
-		Carte res = sabot.get(0);
-		return res;
+		return sabot.get(0);
 	}
 	
 	public int getKM() {
@@ -53,41 +53,56 @@ public class Joueur {
 		return totalKM;
 	}
 	
-	private boolean possedeBotte(Type t) {
-		for (Botte botte : bottes)
-			if (botte.getType() == t)
+	public boolean possedeBotte(Type t) {
+		for (Botte botte : bottes) {
+			if (botte.getType() == t) {
 				return true;
-		return false;
-	}
-	
-	private boolean limiteParAttaque() {
-		if (batailles.isEmpty()) return false;
-		
-		Bataille derniereBataille = batailles.depiler();
-		if (derniereBataille.getClass() == Attaque.class && // derniereBataille est une Attaque
-				!possedeBotte(derniereBataille.getType())) // le joueur n'est pas immunisé contre cette Attaque
-			return true;
-		return false;
-	}
-	
-	private boolean limiteParLimite() {
-		if (limites.isEmpty()) return false;
-		
-		Limite derniereLimite = limites.depiler();
-		if (derniereLimite.getClass() == DebutLimite.class &&
-				!possedeBotte(Type.FEU))
-			return true;
+			}
+		}
 		return false;
 	}
 	
 	public int getLimite() {
-		if (limiteParAttaque()) return 0;
-		if (limiteParLimite()) return 50;
-		return 200;
+		if (possedeBotte(Type.FEU) // joueur prioritaire
+				|| limites.isEmpty() // pas de limite
+				|| limites.sommet().getClass() == FinLimite.class // dernière limite est une fin de limite
+				)
+			return 200;
+		return 50;
 	}
 	
 	public boolean estBloque() {
-		return limiteParAttaque();
+		if (batailles.isEmpty()) return false;
+		
+		Bataille derniereBataille = batailles.sommet();
+		if (derniereBataille.getClass() == Attaque.class // derniereBataille est une Attaque
+				&& !possedeBotte(derniereBataille.getType())) // le joueur n'est pas immunisé contre cette Attaque
+			return true;
+		return false;
+	}
+	
+	public Set<Coup> coupsPossibles(List<Joueur> participants) {
+		Set<Coup> resultat = new HashSet<>();
+		for (Carte carte : getMain()) {
+			for (Joueur cible : participants) {
+				Coup coup = new Coup(carte, cible);
+				if (coup.estValide(this)) {
+					resultat.add(coup);
+				}
+			}
+		}
+		return resultat;
+	}
+	
+	public Set<Coup> coupsParDefault() {
+		Set<Coup> resultat = new HashSet<>();
+		for (Carte carte : getMain()) {
+			Coup coup = new Coup(carte, null);
+			if (coup.estValide(this)) {
+				resultat.add(coup);
+			}
+		}
+		return resultat;
 	}
 	
 	public Main getMain() {
@@ -117,8 +132,8 @@ public class Joueur {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Joueur autreJoueur &&
-				nom.equals(autreJoueur.nom);
+		return obj instanceof Joueur other &&
+				nom.equals(other.nom);
 	}
 	
 }

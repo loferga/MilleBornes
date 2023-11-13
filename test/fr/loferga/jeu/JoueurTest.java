@@ -62,7 +62,7 @@ class JoueurTest {
 		
 		// attaque
 		joueur.getBatailles().empiler(new Attaque(1, Type.ESSENCE));
-		assertEquals(0, joueur.getLimite());
+		assertEquals(200, joueur.getLimite());
 		
 		// attaque contrée
 		joueur.getBatailles().empiler(new Parade(1, Type.ESSENCE));
@@ -71,7 +71,7 @@ class JoueurTest {
 		
 		// attque mauvaise botte
 		joueur.getBottes().add(new Botte(1, Type.CREVAISON));
-		assertEquals(0, joueur.getLimite());
+		assertEquals(200, joueur.getLimite());
 		
 		// attaque bonne botte
 		joueur.getBottes().add(new Botte(1, Type.ESSENCE));

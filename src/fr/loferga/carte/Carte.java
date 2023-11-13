@@ -1,5 +1,7 @@
 package fr.loferga.carte;
 
+import fr.loferga.jeu.Joueur;
+
 public abstract class Carte {
 	private int nombre;
 
@@ -14,6 +16,8 @@ public abstract class Carte {
 	public void setNombre(int nombre) {
 		this.nombre = nombre;
 	}
+	
+	public abstract boolean appliquer(Joueur j);
 	
 	@Override
 	public boolean equals(Object other) {

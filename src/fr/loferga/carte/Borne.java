@@ -2,6 +2,8 @@ package fr.loferga.carte;
 
 import java.util.Objects;
 
+import fr.loferga.jeu.Joueur;
+
 public class Borne extends Carte {
 	
 	private int km;
@@ -9,6 +11,17 @@ public class Borne extends Carte {
 	public Borne(int nombre, int km) {
 		super(nombre);
 		this.km = km;
+	}
+	
+	@Override
+	public boolean appliquer(Joueur j) {
+		int limite = j.getLimite();
+		boolean ajoutee = false;
+		if (km <= limite && (j.getKM() + km < 1000)) {
+			j.getBornes().add(this);
+			ajoutee = true;
+		}
+		return ajoutee;
 	}
 	
 	public int getKm() {

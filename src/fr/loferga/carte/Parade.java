@@ -1,10 +1,18 @@
 package fr.loferga.carte;
 
+import fr.loferga.jeu.Joueur;
+
 public class Parade extends Bataille {
 
 	public Parade(int nombre, Type type) {
 		super(nombre, type);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean appliquer(Joueur j) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	@Override

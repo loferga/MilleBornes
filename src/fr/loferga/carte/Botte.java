@@ -1,10 +1,17 @@
 package fr.loferga.carte;
 
+import fr.loferga.jeu.Joueur;
+
 public class Botte extends Probleme {
 
 	public Botte(int nombre, Type type) {
 		super(nombre, type);
 		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean appliquer(Joueur j) {
+		return j.getBottes().add(this);
 	}
 	
 	@Override
