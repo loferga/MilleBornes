@@ -14,7 +14,6 @@ import fr.loferga.carte.Botte;
 import fr.loferga.carte.Carte;
 import fr.loferga.carte.FinLimite;
 import fr.loferga.carte.Limite;
-import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.utils.Pile;
 import fr.loferga.utils.PileAsLinkedList;
@@ -43,7 +42,10 @@ public class Joueur {
 	
 	public Carte prendreCarte(List<Carte> sabot) {
 		if (sabot.isEmpty()) return null;
-		return sabot.get(0);
+		Carte piochee = sabot.get(0);
+		sabot.remove(0); // remove piochee
+		donner(piochee);
+		return piochee;
 	}
 	
 	public int getKM() {
@@ -55,12 +57,17 @@ public class Joueur {
 	}
 	
 	public boolean possedeBotte(Type t) {
+		// si Botte.hashCode() avait été définie nous aurions pu utiliser;
+		// bottes.contains(new Botte(1, t));
+		/*
 		for (Botte botte : bottes) {
 			if (botte.getType() == t) {
 				return true;
 			}
 		}
 		return false;
+		*/
+		return bottes.contains(new Botte(1, t));
 	}
 	
 	public int getLimite() {
@@ -72,6 +79,7 @@ public class Joueur {
 		return 50;
 	}
 	
+	// TODO envoyer
 	public boolean estBloque() {
 		if (batailles.isEmpty()) return false;
 		
@@ -96,9 +104,9 @@ public class Joueur {
 	}
 	
 	public Set<Coup> coupsParDefault() {
-		List<Joueur> ensembleVide = new ArrayList<>();
-		ensembleVide.add(null);
-		return coupsPossibles(ensembleVide);
+		List<Joueur> singletonVide = new ArrayList<>();
+		singletonVide.add(null);
+		return coupsPossibles(singletonVide);
 	}
 	
 	public Main getMain() {
@@ -128,16 +136,11 @@ public class Joueur {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Joueur other &&
-				nom.equals(other.nom);
-	}
-	
-	public static void main(String[] args) {
-		Joueur j = new Joueur("Jean");
-		Carte c = new Parade(1, Type.ACCIDENT);
-		j.getMain().prendre(c);
-		j.getMain().prendre(c);
-		System.out.println(j.coupsParDefault());
+		if (obj instanceof Joueur) {
+			Joueur other = (Joueur) obj;
+			return nom.equals(other.nom);
+		}
+		return false;
 	}
 	
 }

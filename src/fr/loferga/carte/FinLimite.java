@@ -13,8 +13,14 @@ public class FinLimite extends Limite {
 	private boolean derniereFinLimite(Joueur j) {
 		if (j.getLimites().isEmpty()) return false;
 		
+		boolean ajoutee = false;
 		Limite derniereLimite = j.getLimites().sommet();
-		return derniereLimite.getClass() == this.getClass();
+		if (!j.possedeBotte(Type.FEU)
+				&& derniereLimite.equals(new DebutLimite(1))) {
+			j.getLimites().empiler(this);
+			ajoutee = true;
+		}
+		return ajoutee;
 	}
 	
 	@Override

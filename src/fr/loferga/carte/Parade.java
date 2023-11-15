@@ -10,8 +10,12 @@ public class Parade extends Bataille {
 	}
 
 	@Override
-	public boolean appliquer(Joueur j) {
-		// TODO Auto-generated method stub
+	public boolean appliquerBataille(Joueur j, Bataille sommet) {
+		if (sommet.getClass() == Attaque.class
+				&& sommet.getType() == super.getType()) {
+			j.getBatailles().empiler(sommet);
+			return true;
+		}
 		return false;
 	}
 	

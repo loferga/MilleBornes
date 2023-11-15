@@ -10,9 +10,11 @@ public class Attaque extends Bataille {
 	}
 
 	@Override
-	public boolean appliquer(Joueur j) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean appliquerBataille(Joueur j, Bataille sommet) {
+		if (j.possedeBotte(super.getType()) || j.estBloque()) return false;
+		
+		j.getBatailles().empiler(sommet);
+		return true;
 	}
 	
 	@Override

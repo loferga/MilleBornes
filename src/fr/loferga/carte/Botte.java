@@ -11,6 +11,14 @@ public class Botte extends Probleme {
 	
 	@Override
 	public boolean appliquer(Joueur j) {
+		if (!j.getBatailles().isEmpty()) {
+			Bataille derniereBataille = j.getBatailles().sommet();
+			// si la botte répond à une attaque, la supprimer:
+			if (derniereBataille.equals(new Attaque(1, super.getType()))) {
+				j.getBatailles().depiler(); // retire l'attaque
+			}
+		}
+		
 		return j.getBottes().add(this);
 	}
 	
@@ -35,6 +43,11 @@ public class Botte extends Probleme {
 		if (!super.equals(other)) return false;
 		Botte botte = (Botte) other;
 		return super.equalsProbleme(botte);
+	}
+	
+	@Override
+	public int hashCode() {
+		return (31 * super.getType().hashCode() * super.hashCode());
 	}
 
 }

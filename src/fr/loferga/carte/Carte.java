@@ -24,4 +24,9 @@ public abstract class Carte {
 		return other != null && other.getClass() == this.getClass();
 	}
 	
+	@Override
+	public int hashCode() {
+		return 31 * this.getClass().hashCode();
+	}
+	
 }

@@ -15,29 +15,34 @@ public class Coup {
 		this.carte = carte;
 		this.joueur = joueur;
 	}
-
+	
 	public Carte getCarte() {
 		return carte;
 	}
-
+	
 	public Joueur getJoueur() {
 		return joueur;
 	}
 	
 	public boolean estValide(Joueur j) {
-		return (carte.getClass() != Attaque.class || j != null) // attque -> joueur valide
-				&& (carte.getClass() != DebutLimite.class || j != null); // debutLimite -> joueur valide
+		if (carte.getClass() == Attaque.class || carte.getClass() == DebutLimite.class) {
+			return !j.equals(joueur);
+		}
+		return true;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof Coup other &&
-				carte.equals(other.carte) &&
-				(
-						joueur == null && other.joueur == null
-						||
-						joueur != null && joueur.equals(other.joueur)
-				);
+		if (obj instanceof Coup) {
+			Coup other = (Coup) obj;
+			return carte.equals(other.carte) &&
+					(
+							joueur == null && other.joueur == null // joueur = other.joueur même si null
+							||
+							joueur != null && joueur.equals(other.joueur) // joueur = other.joueur si non null
+					);
+		}
+		return false;
 	}
 	
 	@Override

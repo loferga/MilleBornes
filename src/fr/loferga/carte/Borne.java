@@ -15,9 +15,10 @@ public class Borne extends Carte {
 	
 	@Override
 	public boolean appliquer(Joueur j) {
-		int limite = j.getLimite();
 		boolean ajoutee = false;
-		if (km <= limite && (j.getKM() + km < 1000)) {
+		if (!j.estBloque()
+				&& km <= j.getLimite()
+				&& (j.getKM() + km < 1000)) {
 			j.getBornes().add(this);
 			ajoutee = true;
 		}
