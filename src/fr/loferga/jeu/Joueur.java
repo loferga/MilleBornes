@@ -1,5 +1,6 @@
 package fr.loferga.jeu;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,9 +12,9 @@ import fr.loferga.carte.Bataille;
 import fr.loferga.carte.Borne;
 import fr.loferga.carte.Botte;
 import fr.loferga.carte.Carte;
-import fr.loferga.carte.DebutLimite;
 import fr.loferga.carte.FinLimite;
 import fr.loferga.carte.Limite;
+import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.utils.Pile;
 import fr.loferga.utils.PileAsLinkedList;
@@ -83,8 +84,8 @@ public class Joueur {
 	
 	public Set<Coup> coupsPossibles(List<Joueur> participants) {
 		Set<Coup> resultat = new HashSet<>();
-		for (Carte carte : getMain()) {
-			for (Joueur cible : participants) {
+		for (Joueur cible : participants) {
+			for (Carte carte : getMain()) {
 				Coup coup = new Coup(carte, cible);
 				if (coup.estValide(this)) {
 					resultat.add(coup);
@@ -95,14 +96,9 @@ public class Joueur {
 	}
 	
 	public Set<Coup> coupsParDefault() {
-		Set<Coup> resultat = new HashSet<>();
-		for (Carte carte : getMain()) {
-			Coup coup = new Coup(carte, null);
-			if (coup.estValide(this)) {
-				resultat.add(coup);
-			}
-		}
-		return resultat;
+		List<Joueur> ensembleVide = new ArrayList<>();
+		ensembleVide.add(null);
+		return coupsPossibles(ensembleVide);
 	}
 	
 	public Main getMain() {
@@ -134,6 +130,14 @@ public class Joueur {
 	public boolean equals(Object obj) {
 		return obj instanceof Joueur other &&
 				nom.equals(other.nom);
+	}
+	
+	public static void main(String[] args) {
+		Joueur j = new Joueur("Jean");
+		Carte c = new Parade(1, Type.ACCIDENT);
+		j.getMain().prendre(c);
+		j.getMain().prendre(c);
+		System.out.println(j.coupsParDefault());
 	}
 	
 }

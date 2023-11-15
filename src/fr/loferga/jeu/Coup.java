@@ -1,6 +1,8 @@
 package fr.loferga.jeu;
 
+import fr.loferga.carte.Attaque;
 import fr.loferga.carte.Carte;
+import fr.loferga.carte.DebutLimite;
 import fr.loferga.utils.NotNull;
 
 public class Coup {
@@ -23,20 +25,28 @@ public class Coup {
 	}
 	
 	public boolean estValide(Joueur j) {
-		// j'ai pas compris ce que fait cette fonction
-		return true;
+		return (carte.getClass() != Attaque.class || j != null) // attque -> joueur valide
+				&& (carte.getClass() != DebutLimite.class || j != null); // debutLimite -> joueur valide
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Coup other &&
 				carte.equals(other.carte) &&
-				joueur.equals(other.joueur);
+				(
+						joueur == null && other.joueur == null
+						||
+						joueur != null && joueur.equals(other.joueur)
+				);
 	}
 	
 	@Override
 	public int hashCode() {
-		return 31 * (carte.hashCode() + joueur.hashCode());
+		int hashJoueur = 0;
+		if (joueur != null) {
+			hashJoueur = joueur.hashCode();
+		}
+		return 31 * (carte.hashCode() + hashJoueur);
 	}
 	
 }
