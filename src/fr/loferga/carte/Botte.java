@@ -1,12 +1,23 @@
 package fr.loferga.carte;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import fr.loferga.jeu.Joueur;
 
 public class Botte extends Probleme {
+	
+	private static final Map<Type, String> NAMES = new EnumMap<>(Type.class);
+	
+	static {
+		NAMES.put(Type.FEU      , "VEHICULE PRIORITAIRE");
+		NAMES.put(Type.ESSENCE  , "CITERNE D'ESSENCE"   );
+		NAMES.put(Type.CREVAISON, "INCREVABLE"          );
+		NAMES.put(Type.ACCIDENT , "AS DU VOLANT"        );
+	}
 
 	public Botte(int nombre, Type type) {
 		super(nombre, type);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -24,18 +35,7 @@ public class Botte extends Probleme {
 	
 	@Override
 	public String toString() {
-		switch(super.getType()) {
-		case FEU:
-			return "VEHICULE PRIORITAIRE";
-		case ESSENCE:
-			return "CITERNE D'ESSENCE";
-		case CREVAISON:
-			return "INCREVABLE";
-		case ACCIDENT:
-			return "AS DU VOLANT";
-		default:
-			return "Invalid";
-		}
+		return NAMES.get(super.getType());
 	}
 	
 	@Override

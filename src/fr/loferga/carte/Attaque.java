@@ -1,8 +1,20 @@
 package fr.loferga.carte;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import fr.loferga.jeu.Joueur;
 
 public class Attaque extends Bataille {
+	
+	private static final Map<Type, String> NAMES = new EnumMap<>(Type.class);
+	
+	static {
+		NAMES.put(Type.FEU      , "FEU ROUGE"      );
+		NAMES.put(Type.ESSENCE  , "PANNE D'ESSENCE");
+		NAMES.put(Type.CREVAISON, "CREVAISON"      );
+		NAMES.put(Type.ACCIDENT , "ACCIDENT"       );
+	}
 
 	public Attaque(int nombre, Type type) {
 		super(nombre, type);
@@ -18,18 +30,7 @@ public class Attaque extends Bataille {
 	
 	@Override
 	public String toString() {
-		switch(super.getType()) {
-		case FEU:
-			return "FEU ROUGE";
-		case ESSENCE:
-			return "PANNE D'ESSENCE";
-		case CREVAISON:
-			return "CREVAISON";
-		case ACCIDENT:
-			return "ACCIDENT";
-		default:
-			return "Invalid";
-		}
+		return NAMES.get(super.getType());
 	}
 	
 	@Override
@@ -38,6 +39,11 @@ public class Attaque extends Bataille {
 		
 		Attaque atk = (Attaque) other;
 		return super.equalsProbleme(atk);
+	}
+	
+	@Override
+	public int hashCode() {
+		return (31 * this.getClass().hashCode() * super.getType().hashCode());
 	}
 	
 }

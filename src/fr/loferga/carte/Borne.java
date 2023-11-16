@@ -1,7 +1,5 @@
 package fr.loferga.carte;
 
-import java.util.Objects;
-
 import fr.loferga.jeu.Joueur;
 
 public class Borne extends Carte {
@@ -40,11 +38,6 @@ public class Borne extends Carte {
 		str.append(" BORNES");
 		return str.toString();
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(km);
-	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -54,5 +47,9 @@ public class Borne extends Carte {
 		return this.km == borne.km;
 	}
 	
+	@Override
+	public int hashCode() {
+		return (31 * this.getClass().hashCode() * km);
+	}
 	
 }

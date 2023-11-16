@@ -1,12 +1,23 @@
 package fr.loferga.carte;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import fr.loferga.jeu.Joueur;
 
 public class Parade extends Bataille {
+	
+	private static final Map<Type, String> NAMES = new EnumMap<>(Type.class);
+	
+	static {
+		NAMES.put(Type.FEU      , "FEU VERT"       );
+		NAMES.put(Type.ESSENCE  , "ESSENCE"        );
+		NAMES.put(Type.CREVAISON, "ROUE DE SECOURS");
+		NAMES.put(Type.ACCIDENT , "REPARATIONS"    );
+	}
 
 	public Parade(int nombre, Type type) {
 		super(nombre, type);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -21,18 +32,7 @@ public class Parade extends Bataille {
 	
 	@Override
 	public String toString() {
-		switch(super.getType()) {
-		case FEU:
-			return "FEU VERT";
-		case ESSENCE:
-			return "ESSENCE";
-		case CREVAISON:
-			return "ROUE DE SECOURS";
-		case ACCIDENT:
-			return "REPARATIONS";
-		default:
-			return "Invalid";
-		}
+		return NAMES.get(super.getType());
 	}
 
 	@Override
@@ -41,6 +41,11 @@ public class Parade extends Bataille {
 		
 		Parade parade = (Parade) other;
 		return super.equalsProbleme(parade);
+	}
+	
+	@Override
+	public int hashCode() {
+		return (31 * this.getClass().hashCode());
 	}
 	
 }

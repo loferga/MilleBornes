@@ -43,4 +43,9 @@ public class FinLimite extends Limite {
 		return super.equals(other);
 	}
 	
+	@Override
+	public int hashCode() {
+		return (31 * this.getClass().hashCode());
+	}
+	
 }
