@@ -13,7 +13,7 @@ public class Parade extends Bataille {
 	public boolean appliquerBataille(Joueur j, Bataille sommet) {
 		if (sommet.getClass() == Attaque.class
 				&& sommet.getType() == super.getType()) {
-			j.getBatailles().empiler(sommet);
+			j.getBatailles().empiler(this);
 			return true;
 		}
 		return false;

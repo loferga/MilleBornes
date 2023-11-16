@@ -6,14 +6,13 @@ public class Attaque extends Bataille {
 
 	public Attaque(int nombre, Type type) {
 		super(nombre, type);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean appliquerBataille(Joueur j, Bataille sommet) {
-		if (j.possedeBotte(super.getType()) || j.estBloque()) return false;
+		if (j.estBloque() || j.possedeBotte(super.getType())) return false;
 		
-		j.getBatailles().empiler(sommet);
+		j.getBatailles().empiler(this);
 		return true;
 	}
 	

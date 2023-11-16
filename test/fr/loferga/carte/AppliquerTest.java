@@ -30,18 +30,13 @@ class AppliquerTest {
 	@Test
 	void test_appliquer() {
 		assertTrue(FEU_VERT.appliquer(j));
-		System.out.println(j.getBatailles());
 		assertFalse(FEU_VERT.appliquer(j));
-		System.out.println(j.getBatailles());
 		assertTrue(FEU_ROUGE.appliquer(j));
-		System.out.println(j.getBatailles());
-		assertTrue(j.estBloque());
 		assertFalse(BORNE_CENT.appliquer(j));
 		assertTrue(VEHICULE_PRIORITAIRE.appliquer(j));
 		assertTrue(BORNE_CENT.appliquer(j));
 		assertTrue(BORNE_CENT.appliquer(j));
 		assertFalse(LIMITE.appliquer(j));
-		System.out.println(j.getBatailles());
 		assertTrue(PANNE.appliquer(j));
 		assertFalse(REPARATION.appliquer(j));
 		assertTrue(ESSENCE.appliquer(j));

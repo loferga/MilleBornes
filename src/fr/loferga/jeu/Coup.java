@@ -31,6 +31,25 @@ public class Coup {
 		return true;
 	}
 	
+	public boolean jouer(Joueur j) {
+		boolean jouee = false;
+		
+		if (joueur == null) {
+			System.out.println("le joueur repose la carte " + carte + " dans le sabot");
+			j.getJeu().getSabot().add(carte);
+			jouee = true;
+		} else {
+			System.out.println("le joueur joue la carte " + carte + " sur " + joueur);
+			jouee = carte.appliquer(j);
+		}
+		
+		if (jouee) {
+			j.getMain().jouer(carte);
+		}
+		
+		return jouee;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coup) {

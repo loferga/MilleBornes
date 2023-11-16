@@ -3,6 +3,7 @@ package fr.loferga.jeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,8 @@ public class Joueur {
 	
 	private String nom;
 	private Main main = new MainAsList();
-	
+	private Jeu jeu;
+
 	// cartes sur plateau
 	private Pile<Limite> limites = new PileAsLinkedList<>();
 	private Pile<Bataille> batailles = new PileAsLinkedList<>();
@@ -48,6 +50,14 @@ public class Joueur {
 		return piochee;
 	}
 	
+	public Jeu getJeu() {
+		return jeu;
+	}
+
+	public void setJeu(Jeu jeu) {
+		this.jeu = jeu;
+	}
+	
 	public int getKM() {
 		int totalKM = 0;
 		for (Borne borne : bornes) {
@@ -57,16 +67,6 @@ public class Joueur {
 	}
 	
 	public boolean possedeBotte(Type t) {
-		// si Botte.hashCode() avait été définie nous aurions pu utiliser;
-		// bottes.contains(new Botte(1, t));
-		/*
-		for (Botte botte : bottes) {
-			if (botte.getType() == t) {
-				return true;
-			}
-		}
-		return false;
-		*/
 		return bottes.contains(new Botte(1, t));
 	}
 	
@@ -90,7 +90,7 @@ public class Joueur {
 		return false;
 	}
 	
-	public Set<Coup> coupsPossibles(List<Joueur> participants) {
+	public Set<Coup> coupsPossibles(Set<Joueur> participants/*List -> Set car Jeu possède un Set de joueurs*/) {
 		Set<Coup> resultat = new HashSet<>();
 		for (Joueur cible : participants) {
 			for (Carte carte : getMain()) {
@@ -104,9 +104,35 @@ public class Joueur {
 	}
 	
 	public Set<Coup> coupsParDefault() {
-		List<Joueur> singletonVide = new ArrayList<>();
+		Set<Joueur> singletonVide = new HashSet<>();
 		singletonVide.add(null);
 		return coupsPossibles(singletonVide);
+	}
+	
+	private Coup recupererPremier(Set<Coup> coups) {
+		if (coups.isEmpty()) return null;
+		
+		Iterator<Coup> it = coups.iterator();
+		Coup choisi = it.next(); // ici coups a un suivant
+		return choisi;
+	}
+	
+	public Coup selectionner() {
+		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
+		Coup selectionne = recupererPremier(coups);
+		if (selectionne != null) {
+			selectionne.jouer(this);
+		}
+		return selectionne;
+	}
+	
+	public Coup rendreCarte() {
+		Set<Coup> coups = coupsParDefault();
+		Coup selectionne = recupererPremier(coups);
+		if (selectionne != null) {
+			selectionne.jouer(this);
+		}
+		return selectionne;
 	}
 	
 	public Main getMain() {
@@ -141,6 +167,11 @@ public class Joueur {
 			return nom.equals(other.nom);
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (31 * nom.hashCode());
 	}
 	
 }
