@@ -7,6 +7,8 @@ import fr.loferga.jeu.Joueur;
 
 public class Attaque extends Bataille {
 	
+	public static final Attaque FEU_ROUGE = new Attaque(5, Type.FEU);
+	
 	private static final Map<Type, String> NAMES = new EnumMap<>(Type.class);
 	
 	static {

@@ -7,6 +7,8 @@ import fr.loferga.jeu.Joueur;
 
 public class Parade extends Bataille {
 	
+	public static final Parade FEU_VERT = new Parade(6, Type.FEU);
+	
 	private static final Map<Type, String> NAMES = new EnumMap<>(Type.class);
 	
 	static {

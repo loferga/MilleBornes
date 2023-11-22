@@ -14,6 +14,7 @@ import fr.loferga.carte.Botte;
 import fr.loferga.carte.Carte;
 import fr.loferga.carte.FinLimite;
 import fr.loferga.carte.Limite;
+import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.utils.Pile;
 import fr.loferga.utils.PileAsLinkedList;
@@ -78,13 +79,23 @@ public class Joueur {
 		return 50;
 	}
 	
+	/*
+	 * interprète le sommet de la pile de bataille
+	 */
+	public Bataille interpreterSommet() {
+		if (batailles.isEmpty()) {
+			if (possedeBotte(Type.FEU))
+				return Parade.FEU_VERT;
+			return Attaque.FEU_ROUGE;
+		}
+		return batailles.sommet();
+	}
+	
 	// TODO envoyer
 	public boolean estBloque() {
-		if (batailles.isEmpty()) return false;
-		
-		Bataille derniereBataille = batailles.sommet();
-		if (derniereBataille.getClass() == Attaque.class // derniereBataille est une Attaque
-				&& !possedeBotte(derniereBataille.getType())) // le joueur n'est pas immunisé contre cette Attaque
+		Bataille sommet = interpreterSommet();
+		if (sommet.getClass() == Attaque.class // derniereBataille est une Attaque
+				&& !possedeBotte(sommet.getType())) // le joueur n'est pas immunisé contre cette Attaque
 			return true;
 		return false;
 	}
