@@ -23,10 +23,20 @@ public class MainAsList implements Main {
 		assert cartes.contains(carte);
 		cartes.remove(carte);
 	}
+	
+	@Override
+	public int size() {
+		return cartes.size();
+	}
 
 	@Override
 	public Iterator<Carte> iterator() {
 		return cartes.iterator();
+	}
+	
+	@Override
+	public String toString() {
+		return cartes.toString();
 	}
 
 }

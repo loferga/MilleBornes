@@ -20,17 +20,33 @@ public class Botte extends Probleme {
 		super(nombre, type);
 	}
 	
-	@Override
-	public boolean appliquer(Joueur j) {
-		if (!j.getBatailles().isEmpty()) {
-			Bataille derniereBataille = j.getBatailles().sommet();
-			// si la botte répond à une attaque, la supprimer:
-			if (derniereBataille.equals(new Attaque(1, super.getType()))) {
-				j.getBatailles().depiler(); // retire l'attaque
+	private void coupFourre(Joueur j) {
+		Carte carteRetiree = null;
+		Bataille derniereBataille = j.getBatailles().sommet();
+		// si la botte répond à une attaque, la supprimer:
+		if (derniereBataille.equals(new Attaque(0, super.getType()))) {
+			carteRetiree = j.getBatailles().depiler(); // retire l'attaque
+		} else if (super.getType() == Type.FEU) {
+			// la botette Véhicule Prioritaire peut aussi supprimer une limite de vitesse
+			if (j.getLimites().isEmpty()) return;
+			
+			Limite derniereLimite = j.getLimites().sommet();
+			if (derniereLimite instanceof DebutLimite) {
+				carteRetiree = j.getLimites().depiler(); // retire la limite
 			}
 		}
+		if (carteRetiree != null)
+			j.getJeu().getSabot().defausser(carteRetiree);
+	}
+	
+	@Override
+	public boolean appliquer(Joueur j) {
+		boolean ajoutee = j.getBottes().add(this);
+		if (ajoutee && !j.getBatailles().isEmpty()) {
+			coupFourre(j);
+		}
 		
-		return j.getBottes().add(this);
+		return ajoutee;
 	}
 	
 	@Override

@@ -81,7 +81,7 @@ class JoueurTest {
 	@Test
 	void test_est_bloque() {
 		// cas de base sans aucune contrainte
-		assertFalse(joueur.estBloque());
+		assertTrue(joueur.estBloque());
 		
 		// un feu rouge
 		joueur.getBatailles().empiler(new Attaque(1, Type.FEU));

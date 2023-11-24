@@ -16,7 +16,7 @@ public class Borne extends Carte {
 		boolean ajoutee = false;
 		if (!j.estBloque()
 				&& km <= j.getLimite()
-				&& (j.getKM() + km < 1000)) {
+				&& (j.getKM() + km <= 1000)) {
 			j.getBornes().add(this);
 			ajoutee = true;
 		}

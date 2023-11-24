@@ -4,12 +4,12 @@ import fr.loferga.carte.Attaque;
 import fr.loferga.carte.Botte;
 import fr.loferga.carte.Parade;
 import fr.loferga.carte.Probleme.Type;
-import fr.loferga.jeu.Sabot;
+import fr.loferga.jeu.OldSabot;
 
 public class TestSabot {
 	
 	public static void main(String[] args) {
-		Sabot sabot = new Sabot(110);
+		OldSabot sabot = new OldSabot(110);
 		sabot.ajouterFamilleCarte(
 				new Attaque(3, Type.ACCIDENT),
 				new Parade(3, Type.ACCIDENT),

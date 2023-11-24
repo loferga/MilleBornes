@@ -7,26 +7,14 @@ public class DebutLimite extends Limite {
 
 	public DebutLimite(int nombre) {
 		super(nombre);
-		// TODO Auto-generated constructor stub
-	}
-	
-	private boolean derniereDebutLimite(Joueur j) {
-		if (j.getLimites().isEmpty()) return false;
-		
-		boolean ajoutee = false;
-		Limite derniereLimite = j.getLimites().sommet();
-		if (!j.possedeBotte(Type.FEU)
-				&& !derniereLimite.equals(this)) {
-			j.getLimites().empiler(this);
-			ajoutee = true;
-		}
-		return ajoutee;
 	}
 	
 	@Override
 	public boolean appliquer(Joueur j) {
 		boolean ajoutee = false;
-		if (!j.possedeBotte(Type.FEU) && !derniereDebutLimite(j)) {
+		if (!j.estBloque()
+				&& !j.possedeBotte(Type.FEU)
+				&& !super.derniereDebutLimite(j)) {
 			j.getLimites().empiler(this);
 			ajoutee = true;
 		}

@@ -22,9 +22,14 @@ import fr.loferga.utils.Utils;
 
 public class Joueur {
 	
-	private String nom;
-	private Main main = new MainAsList();
-	private Jeu jeu;
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_RED = "\u001B[31m";
+	private static final String ANSI_GREEN = "\u001B[32m";
+	private static final String ANSI_YELLOW = "\u001B[33m";
+	
+	protected String nom;
+	protected Main main = new MainAsList();
+	protected Jeu jeu;
 
 	// cartes sur plateau
 	private Pile<Limite> limites = new PileAsLinkedList<>();
@@ -73,7 +78,7 @@ public class Joueur {
 	public int getLimite() {
 		if (possedeBotte(Type.FEU) // joueur prioritaire
 				|| limites.isEmpty() // pas de limite
-				|| limites.sommet().getClass() == FinLimite.class // dernière limite est une fin de limite
+				|| limites.sommet() instanceof FinLimite // dernière limite est une fin de limite
 				)
 			return 200;
 		return 50;
@@ -94,7 +99,7 @@ public class Joueur {
 	// TODO envoyer
 	public boolean estBloque() {
 		Bataille sommet = interpreterSommet();
-		if (sommet.getClass() == Attaque.class // derniereBataille est une Attaque
+		if (sommet instanceof Attaque // derniereBataille est une Attaque
 				&& !possedeBotte(sommet.getType())) // le joueur n'est pas immunisé contre cette Attaque
 			return true;
 		return false;
@@ -119,30 +124,26 @@ public class Joueur {
 		return coupsPossibles(singletonVide);
 	}
 	
-	private Coup recupererPremier(Set<Coup> coups) {
-		if (coups.isEmpty()) return null;
-		
-		Iterator<Coup> it = coups.iterator();
-		Coup choisi = it.next(); // ici coups a un suivant
-		return choisi;
-	}
-	
 	public Coup selectionner() {
 		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
-		Coup selectionne = recupererPremier(coups);
-		if (selectionne != null) {
-			selectionne.jouer(this);
+		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
+			Coup next = it.next();
+			if (next.jouer(this)) {
+				return next;
+			}
 		}
-		return selectionne;
+		return null;
 	}
 	
 	public Coup rendreCarte() {
 		Set<Coup> coups = coupsParDefault();
-		Coup selectionne = recupererPremier(coups);
-		if (selectionne != null) {
-			selectionne.jouer(this);
+		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
+			Coup next = it.next();
+			if (next.jouer(this)) {
+				return next;
+			}
 		}
-		return selectionne;
+		return null;
 	}
 	
 	public Main getMain() {
@@ -165,9 +166,25 @@ public class Joueur {
 		return bottes;
 	}
 	
+	private static final String LABEL = "J";
+	
+	protected String getLabel() {
+		return LABEL;
+	}
+	
 	@Override
 	public String toString() {
-		return nom;
+		StringBuilder str = new StringBuilder();
+		if (estBloque())
+			str.append(ANSI_RED);
+		else if (getLimite() != 200)
+			str.append(ANSI_YELLOW);
+		else
+			str.append(ANSI_GREEN);
+		str.append(this.getLabel());
+		str.append(nom);
+		str.append(ANSI_RESET);
+		return str.toString();
 	}
 	
 	@Override
@@ -181,7 +198,7 @@ public class Joueur {
 	
 	@Override
 	public int hashCode() {
-		return (31 * nom.hashCode());
+		return (31 * getClass().hashCode() * nom.hashCode());
 	}
 	
 }

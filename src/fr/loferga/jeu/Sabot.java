@@ -1,106 +1,56 @@
 package fr.loferga.jeu;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import fr.loferga.carte.Carte;
+import fr.loferga.utils.Pile;
+import fr.loferga.utils.PileAsLinkedList;
 
-public class Sabot implements Iterable<Carte> {
+public class Sabot {
 	
-	private Carte[] cartes;
-	private int nbCartes;
-	private int nbOperations = 0;
-
-	public Sabot(int cartesMax) {
-		this.cartes = new Carte[cartesMax];
+	private static final int N = 6;
+	
+	private Pile<Carte> pioche = new PileAsLinkedList<>();
+	private Pile<Carte> defausse = new PileAsLinkedList<>();
+	
+	private int nbRestitutions = 0;
+	
+	// remet une carte dans la pioche
+	public void remettre(Carte c) {
+		pioche.empiler(c);
 	}
 	
-	public boolean estVide() {
-		return nbCartes == 0;
-	}
-	
-	private void ajouterCarte(Carte carte) {
-		if (nbCartes >= cartes.length) {
-			throw new IllegalStateException();
-		}
-		cartes[nbCartes] = carte;
-		nbCartes++;
-		nbOperations++;
-	}
-	
-	public void ajouterFamilleCarte(Carte carte) {
-		for (int i = 0; i<carte.getNombre(); i++) {
-			ajouterCarte(carte);
-		}
-	}
-	
-	public void ajouterFamilleCarte(Carte... cartes) {
-		for (int i = 0; i<cartes.length; i++) {
-			ajouterFamilleCarte(cartes[i]);
-		}
-	}
-	
-	/* ==================================================
-	 *                     ITERATOR
-	 * ==================================================
-	 */
-	
-	public class IteratorSabot implements Iterator<Carte> {
-
-		private int i = 0;
-		private int nbOperationsRef = nbOperations;
-		private boolean nextDone = false;
-
-		@Override
-		public boolean hasNext() {
-			return i<nbCartes;
-		}
-		
-		private void verifConcurrence() {
-			if (nbOperationsRef != nbOperations)
-				throw new ConcurrentModificationException();
-		}
-
-		@Override
-		public Carte next() {
-			verifConcurrence();
-			if (!hasNext()) {
-				throw new NoSuchElementException();
-			}
-			Carte toReturn = cartes[i];
-			i++;
-			nextDone = true;
-			return toReturn;
-		}
-		
-		@Override
-		public void remove() {
-			verifConcurrence();
-			if (nbCartes<1 || !nextDone) {
-				throw new UnsupportedOperationException();
-			}
-			for (int j = i-1; j<nbCartes-1; j++) {
-				cartes[j] = cartes[j+1];
-			}
-			nextDone = false;
-			nbOperationsRef++; nbOperations++;
-			nbCartes--;
-			i--;
-		}
-		
-	}
-	
-	@Override
-	public Iterator<Carte> iterator() {
-		return new IteratorSabot();
-	}
-	
+	// pioche
 	public Carte piocher() {
-		Iterator<Carte> it = iterator();
-		Carte toReturn = it.next();
-		it.remove();
-		return toReturn;
+		return pioche.depiler();
+	}
+	
+	// pioche
+	public void defausser(Carte c) {
+		defausse.empiler(c);
+	}
+	
+	// nombre carte restantes dans la pioche
+	public int reste() {
+		return pioche.size();
+	}
+	
+	public boolean isEmpty() {
+		return pioche.isEmpty();
+	}
+	
+	// transverse la defausse dans la pioche
+	// échou au bout de N restitutions
+	public boolean restituer() {
+		if (nbRestitutions > 6) return false;
+		while (!defausse.isEmpty()) {
+			pioche.empiler(defausse.depiler());
+		}
+		nbRestitutions++;
+		return true;
+	}
+	
+	public void printDefausseSiErreur() {
+		if (!defausse.contains(null)) return;
+		System.out.println("DEFAUSSE: " + defausse);
 	}
 	
 }

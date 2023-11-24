@@ -19,14 +19,14 @@ import fr.loferga.carte.Probleme.Type;
 
 class SabotTest {
 	
-	private static Sabot sabot;
+	private static OldSabot sabot;
 	private static final Carte ATK_ACCIDENT = new Attaque(3, Type.ACCIDENT);
 	private static final Carte PARRY_ACCIDENT = new Parade(3, Type.ACCIDENT);
 	private static final Carte BTE_ACCIDENT = new Botte(1, Type.ACCIDENT);
 	
 	@BeforeEach
 	void setUpBeforeEach() throws Exception {
-		sabot = new Sabot(110);
+		sabot = new OldSabot(110);
 		sabot.ajouterFamilleCarte(ATK_ACCIDENT, PARRY_ACCIDENT, BTE_ACCIDENT);
 	}
 

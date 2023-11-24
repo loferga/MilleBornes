@@ -8,12 +8,12 @@ import fr.loferga.utils.NotNull;
 public class Coup {
 	
 	private Carte carte;
-	private Joueur joueur;
+	private Joueur cible;
 	
-	public Coup(@NotNull Carte carte, Joueur joueur) {
+	public Coup(@NotNull Carte carte, Joueur cible) {
 		if (carte == null) throw new IllegalArgumentException("carte ne peut pas être null");
 		this.carte = carte;
-		this.joueur = joueur;
+		this.cible = cible;
 	}
 	
 	public Carte getCarte() {
@@ -21,30 +21,38 @@ public class Coup {
 	}
 	
 	public Joueur getJoueur() {
-		return joueur;
+		return cible;
 	}
 	
-	public boolean estValide(Joueur j) {
-		if (carte.getClass() == Attaque.class || carte.getClass() == DebutLimite.class) {
-			return !j.equals(joueur);
+	public boolean estValide(Joueur joueur) {
+		if (cible == null) return true;
+		boolean equals = joueur.equals(cible); // le jouant et la cible sont les mêmes joueurs
+		// carte est ciblée sur un adversaire
+		boolean ciblee = carte instanceof Attaque || carte instanceof DebutLimite;
+		// xor (equals, ciblee)
+		if (ciblee) {
+			return !equals;
 		}
-		return true;
+		return equals;
 	}
 	
-	public boolean jouer(Joueur j) {
+	public boolean jouer(Joueur joueur) {
 		boolean jouee = false;
 		
-		if (joueur == null) {
-			System.out.println("le joueur repose la carte " + carte + " dans le sabot");
-			j.getJeu().getSabot().add(carte);
+		if (cible == null) {
+			System.out.println("le joueur " + joueur + " repose la carte " + carte + " dans le sabot");
+			joueur.getJeu().getSabot().defausser(carte);
+			joueur.getJeu().getSabot().printDefausseSiErreur();
 			jouee = true;
 		} else {
-			System.out.println("le joueur joue la carte " + carte + " sur " + joueur);
-			jouee = carte.appliquer(j);
+			jouee = carte.appliquer(cible);
+			if (jouee) {
+				System.out.println("le joueur " + joueur + " joue la carte " + carte + " sur " + cible);
+			}
 		}
 		
 		if (jouee) {
-			j.getMain().jouer(carte);
+			joueur.getMain().jouer(carte);
 		}
 		
 		return jouee;
@@ -56,9 +64,9 @@ public class Coup {
 			Coup other = (Coup) obj;
 			return carte.equals(other.carte) &&
 					(
-							joueur == null && other.joueur == null // joueur = other.joueur même si null
+							cible == null && other.cible == null // joueur = other.joueur même si null
 							||
-							joueur != null && joueur.equals(other.joueur) // joueur = other.joueur si non null
+							cible != null && cible.equals(other.cible) // joueur = other.joueur si non null
 					);
 		}
 		return false;
@@ -67,10 +75,14 @@ public class Coup {
 	@Override
 	public int hashCode() {
 		int hashJoueur = 0;
-		if (joueur != null) {
-			hashJoueur = joueur.hashCode();
+		if (cible != null) {
+			hashJoueur = cible.hashCode();
 		}
 		return 31 * (carte.hashCode() + hashJoueur);
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 	
 }

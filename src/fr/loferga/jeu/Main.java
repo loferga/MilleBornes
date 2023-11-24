@@ -8,4 +8,6 @@ public interface Main extends Iterable<Carte> {
 	
 	void jouer(Carte carte);
 	
+	int size();
+	
 }

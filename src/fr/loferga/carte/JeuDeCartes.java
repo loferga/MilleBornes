@@ -2,13 +2,14 @@ package fr.loferga.carte;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import fr.loferga.carte.Probleme.Type;
 import fr.loferga.utils.Utils;
 
-public class JeuDeCartes {
+public class JeuDeCartes implements Iterable<Carte> {
 	
 	private static final Carte[] typesDeCartes = {
 		new Attaque(3, Type.ACCIDENT),
@@ -85,12 +86,10 @@ public class JeuDeCartes {
 		// si aucun test n'as abouti à un return false alors:
 		return true;
 	}
-	
-	public static void main(String[] args) {
-		JeuDeCartes jeu = new JeuDeCartes();
-		System.out.println(jeu.getCartes());
-		System.out.println(jeu.checkCount());
-		System.out.println(jeu.checkCountEfficace());
+
+	@Override
+	public Iterator<Carte> iterator() {
+		return listeCartes.iterator();
 	}
 	
 }
