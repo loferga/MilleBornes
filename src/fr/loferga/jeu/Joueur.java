@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import fr.loferga.carte.Attaque;
@@ -124,26 +125,21 @@ public class Joueur {
 		return coupsPossibles(singletonVide);
 	}
 	
-	public Coup selectionner() {
+	public Optional<Coup> selectionner() {
 		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
 		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
 			Coup next = it.next();
 			if (next.jouer(this)) {
-				return next;
+				return Optional.of(next);
 			}
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 	public Coup rendreCarte() {
 		Set<Coup> coups = coupsParDefault();
-		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
-			Coup next = it.next();
-			if (next.jouer(this)) {
-				return next;
-			}
-		}
-		return null;
+		Iterator<Coup> it = coups.iterator();
+		return it.next();
 	}
 	
 	public Main getMain() {

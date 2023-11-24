@@ -110,4 +110,11 @@ public class Utils {
 		return false;
 	}
 	
+	public static boolean bigAssertTrue(boolean... tab) {
+		for (boolean e : tab)
+			if (!e)
+				return false;
+		return true;
+	}
+	
 }

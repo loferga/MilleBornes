@@ -3,6 +3,7 @@ package fr.loferga.jeu;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.NavigableSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -64,8 +65,8 @@ public class Jeu {
 			System.out.println("sa main: " + j.getMain());
 			
 			System.out.print("\t");
-			Coup coupSelectionne = j.selectionner();
-			if (coupSelectionne == null) {
+			Optional<Coup> coupSelectionne = j.selectionner();
+			if (coupSelectionne.isEmpty()) {
 				j.rendreCarte();
 			}
 			
@@ -73,9 +74,8 @@ public class Jeu {
 			
 			if (!it.hasNext())
 				it = joueurs.iterator();
-			if (sabot.isEmpty()) {
-				if (!sabot.restituer() || sabot.isEmpty())
-					finDePartie = true;
+			if (sabot.isEmpty() && (!sabot.restituer() || sabot.isEmpty())) {
+				finDePartie = true;
 			}
 		}
 		
