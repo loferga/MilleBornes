@@ -42,7 +42,6 @@ public class Coup {
 		if (cible == null) {
 			System.out.println("le joueur " + joueur + " repose la carte " + carte + " dans le sabot");
 			joueur.getJeu().getSabot().defausser(carte);
-			joueur.getJeu().getSabot().printDefausseSiErreur();
 			jouee = true;
 		} else {
 			jouee = carte.appliquer(cible);

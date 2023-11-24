@@ -40,17 +40,12 @@ public class Sabot {
 	// transverse la defausse dans la pioche
 	// échou au bout de N restitutions
 	public boolean restituer() {
-		if (nbRestitutions > 6) return false;
+		if (nbRestitutions > N) return false;
 		while (!defausse.isEmpty()) {
 			pioche.empiler(defausse.depiler());
 		}
 		nbRestitutions++;
 		return true;
-	}
-	
-	public void printDefausseSiErreur() {
-		if (!defausse.contains(null)) return;
-		System.out.println("DEFAUSSE: " + defausse);
 	}
 	
 }

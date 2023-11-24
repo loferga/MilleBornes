@@ -21,22 +21,27 @@ public class Botte extends Probleme {
 	}
 	
 	private void coupFourre(Joueur j) {
-		Carte carteRetiree = null;
-		Bataille derniereBataille = j.getBatailles().sommet();
-		// si la botte répond à une attaque, la supprimer:
-		if (derniereBataille.equals(new Attaque(0, super.getType()))) {
-			carteRetiree = j.getBatailles().depiler(); // retire l'attaque
-		} else if (super.getType() == Type.FEU) {
-			// la botette Véhicule Prioritaire peut aussi supprimer une limite de vitesse
-			if (j.getLimites().isEmpty()) return;
-			
-			Limite derniereLimite = j.getLimites().sommet();
-			if (derniereLimite instanceof DebutLimite) {
-				carteRetiree = j.getLimites().depiler(); // retire la limite
+		// vérifie si coup fourré d'une attaque
+		if (!j.getBatailles().isEmpty()) {
+			Bataille derniereBataille = j.getBatailles().sommet();
+			// si la botte répond à une attaque, la supprimer:
+			if (derniereBataille.equals(new Attaque(0, super.getType()))) {
+				// retire l'attaque
+				j.getBatailles().depiler();
+				j.getJeu().getSabot().defausser(derniereBataille);
 			}
 		}
-		if (carteRetiree != null)
-			j.getJeu().getSabot().defausser(carteRetiree);
+		
+		// la botte Véhicule Prioritaire peut aussi supprimer une limite de vitesse
+		if (super.getType() == Type.FEU && !j.getLimites().isEmpty()) {
+			Limite derniereLimite = j.getLimites().sommet();
+			if (derniereLimite instanceof DebutLimite) {
+				// retire la limite
+				j.getLimites().depiler();
+				j.getJeu().getSabot().defausser(derniereLimite);
+			}
+		}
+		
 	}
 	
 	@Override
