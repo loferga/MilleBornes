@@ -4,8 +4,12 @@ import fr.loferga.carte.Carte;
 import fr.loferga.utils.Pile;
 import fr.loferga.utils.PileAsLinkedList;
 
+/* Sabot comme dans le jeu de plateau
+ * possède une pile de pioche et une pile de défausse
+ */
 public class Sabot {
 	
+	// nb max de restitution avant échec
 	private static final int N = 6;
 	
 	private Pile<Carte> pioche = new PileAsLinkedList<>();

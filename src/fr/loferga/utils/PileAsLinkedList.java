@@ -3,8 +3,6 @@ package fr.loferga.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-
-// TODO envoyer
 public class PileAsLinkedList<T> implements Pile<T> {
 	
 	private List<T> pile = new LinkedList<>();

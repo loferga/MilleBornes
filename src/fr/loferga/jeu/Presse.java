@@ -2,7 +2,6 @@ package fr.loferga.jeu;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.TreeSet;
@@ -54,10 +53,7 @@ public class Presse extends Joueur {
 	public Coup rendreCarte() {
 		NavigableSet<Coup> coups = new TreeSet<>(COMPARATOR);
 		coups.addAll(super.coupsParDefault());
-		Iterator<Coup> it = coups.iterator();
-		Coup coup = it.next();
-		coup.jouer(this);
-		return coup;
+		return super.jouerPremier(coups);
 	}
 
 }

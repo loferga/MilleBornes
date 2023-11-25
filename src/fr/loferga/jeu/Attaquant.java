@@ -1,7 +1,6 @@
 package fr.loferga.jeu;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.TreeSet;
@@ -21,7 +20,7 @@ public class Attaquant extends Joueur {
 	
 	@Override
 	public Optional<Coup> selectionner() {
-		// du plus grand au plus petit
+		// de la plus grande valeur à la plus petite
 		NavigableSet<Coup> coups = new TreeSet<>(Collections.reverseOrder());
 		coups.addAll(super.coupsPossibles(super.jeu.getJoueurs()));
 		return super.jouerPremierPossible(coups);
@@ -29,12 +28,10 @@ public class Attaquant extends Joueur {
 	
 	@Override
 	public Coup rendreCarte() {
+		// de la plus petite valeur à la plus grande
 		NavigableSet<Coup> coups = new TreeSet<>();
 		coups.addAll(super.coupsParDefault());
-		Iterator<Coup> it = coups.iterator();
-		Coup coup = it.next();
-		coup.jouer(this);
-		return coup;
+		return super.jouerPremier(coups);
 	}
 
 }

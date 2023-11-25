@@ -38,7 +38,7 @@ public class Coup implements Comparable<Coup> {
 		return carte;
 	}
 	
-	public Joueur getJoueur() {
+	public Joueur getCible() {
 		return cible;
 	}
 	

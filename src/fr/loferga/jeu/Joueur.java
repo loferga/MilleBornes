@@ -85,10 +85,13 @@ public class Joueur {
 		return 50;
 	}
 	
-	/*
-	 * interprète le sommet de la pile de bataille
+	/* interprète le sommet de la pile de bataille:
+	 * si la pile est vide prendre le sommet "fictif"
+	 * au début de la partie tout le monde doit poser
+	 * un feu vert ou un véhicule prioritaire pour
+	 * avancer, c'est comme si ils avait un feu rouge
 	 */
-	public Bataille interpreterSommet() {
+	public Bataille sommetBataille() {
 		if (batailles.isEmpty()) {
 			if (possedeBotte(Type.FEU))
 				return Parade.FEU_VERT;
@@ -97,19 +100,18 @@ public class Joueur {
 		return batailles.sommet();
 	}
 	
-	// TODO envoyer
 	public boolean estBloque() {
-		Bataille sommet = interpreterSommet();
-		if (sommet instanceof Attaque // derniereBataille est une Attaque
-				&& !possedeBotte(sommet.getType())) // le joueur n'est pas immunisé contre cette Attaque
-			return true;
-		return false;
+		Bataille sommet = this.sommetBataille();
+		return sommet instanceof Attaque // derniereBataille est une Attaque
+				&& !possedeBotte(sommet.getType()); // le joueur n'est pas immunisé contre cette Attaque
+		// le test sur la possession d'une botte associer est obsolète car le sommet de la bataille ne
+		// peux pas contenir une telle Attaque (cf. Coup fourrés dans fr.loferga.carte.Botte)
 	}
 	
 	public Set<Coup> coupsPossibles(Set<Joueur> participants/*List -> Set car Jeu possède un Set de joueurs*/) {
 		Set<Coup> resultat = new HashSet<>();
 		for (Joueur cible : participants) {
-			for (Carte carte : getMain()) {
+			for (Carte carte : main) {
 				Coup coup = new Coup(carte, cible);
 				if (coup.estValide(this)) {
 					resultat.add(coup);
@@ -120,12 +122,17 @@ public class Joueur {
 	}
 	
 	public Set<Coup> coupsParDefault() {
-		Set<Joueur> singletonVide = new HashSet<>();
-		singletonVide.add(null);
-		return coupsPossibles(singletonVide);
+		Set<Coup> resultat = new HashSet<>();
+		for (Carte carte : main) {
+			resultat.add(new Coup(carte, null));
+		}
+		if (resultat.isEmpty())
+			throw new IllegalStateException("La main est vide");
+		return resultat;
 	}
 	
-	protected final Optional<Coup> jouerPremierPossible(Set<Coup> coups) {
+	// si aucun coup n'est possible Optional.empty()
+	protected final Optional<Coup> jouerPremierPossible(Collection<Coup> coups) {
 		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
 			Coup next = it.next();
 			if (next.jouer(this)) {
@@ -135,17 +142,24 @@ public class Joueur {
 		return Optional.empty();
 	}
 	
+	protected final Coup jouerPremier(Collection<Coup> coups) {
+		if (coups.isEmpty())
+			throw new IllegalArgumentException("coups ne peux pas être vide");
+		Iterator<Coup> it = coups.iterator();
+		Coup first = it.next();
+		first.jouer(this);
+		return first;
+	}
+	
 	public Optional<Coup> selectionner() {
 		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
 		return jouerPremierPossible(coups);
 	}
 	
+	// pré-condition: la main n'est pas vide
 	public Coup rendreCarte() {
 		Set<Coup> coups = coupsParDefault();
-		Iterator<Coup> it = coups.iterator();
-		Coup next = it.next();
-		next.jouer(this);
-		return next;
+		return jouerPremier(coups);
 	}
 	
 	public Main getMain() {

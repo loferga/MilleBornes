@@ -1,7 +1,6 @@
 package fr.loferga.jeu;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,13 +25,7 @@ public class JoueurChanceux extends Joueur {
 		Set<Coup> ensembleCoups = super.coupsPossibles(jeu.getJoueurs());
 		List<Coup> coups = new ArrayList<>(ensembleCoups);
 		coups = Utils.melanger(coups);
-		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
-			Coup next = it.next();
-			if (next.jouer(this)) {
-				return Optional.of(next);
-			}
-		}
-		return Optional.empty();
+		return super.jouerPremierPossible(coups);
 	}
 	
 	@Override
@@ -42,8 +35,7 @@ public class JoueurChanceux extends Joueur {
 		
 		List<Coup> coups = new ArrayList<>(ensembleCoups);
 		coups = Utils.melanger(coups);
-		Iterator<Coup> it = coups.iterator();
-		return it.next();
+		return super.jouerPremier(coups);
 	}
 
 }

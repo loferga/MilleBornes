@@ -44,7 +44,6 @@ public class Utils {
 	}
 	
 	public static <T> boolean verifierMelangeEfficace(List<T> l1, List<T> l2) {
-		//TODO 
 		if (l1.size() != l2.size()) return false;
 		
 		List<T> alreadyChecked = new LinkedList<>();
@@ -108,13 +107,6 @@ public class Utils {
 			if (element.equals(elementCherche))
 				return true;
 		return false;
-	}
-	
-	public static boolean bigAssertTrue(boolean... tab) {
-		for (boolean e : tab)
-			if (!e)
-				return false;
-		return true;
 	}
 	
 }

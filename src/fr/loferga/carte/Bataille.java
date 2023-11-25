@@ -12,7 +12,7 @@ public abstract class Bataille extends Probleme {
 	
 	@Override
 	public boolean appliquer(Joueur j) {
-		return this.appliquerBataille(j, j.interpreterSommet());
+		return this.appliquerBataille(j, j.sommetBataille());
 	}
 
 }
