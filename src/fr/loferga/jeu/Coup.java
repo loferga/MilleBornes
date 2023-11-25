@@ -78,7 +78,11 @@ public class Coup implements Comparable<Coup> {
 	// fonction de test
 	@Override
 	public String toString() {
-		return carte.toString() + '/' + cible.toString();
+		String cibleString = "SABOT";
+		if (cible != null) {
+			cibleString = cible.toString();
+		}
+		return carte.toString() + '/' + cibleString;
 	}
 	
 	@Override

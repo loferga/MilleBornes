@@ -120,7 +120,7 @@ public class Jeu {
 	
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu();
-		jeu.inscrire(new Attaquant("1"));
+		jeu.inscrire(new Presse("1"));
 		jeu.inscrire(new Joueur("2"));
 		jeu.inscrire(new Joueur("3"));
 		jeu.lancer();
