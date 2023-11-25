@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.loferga.carte.Probleme.Type;
+import fr.loferga.jeu.Jeu;
 import fr.loferga.jeu.Joueur;
 
 class AppliquerTest {
@@ -16,6 +17,8 @@ class AppliquerTest {
 	@BeforeEach
 	void before_each() {
 		j = new Joueur("Jean");
+		Jeu jeu = new Jeu();
+		jeu.inscrire(j);
 	}
 	
 	private static final Carte FEU_VERT = new Parade(1, Type.FEU);
