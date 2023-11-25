@@ -1,5 +1,6 @@
 package fr.loferga.jeu;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.NavigableSet;
@@ -47,6 +48,36 @@ public class Jeu {
 		iteratorCartes.forEachRemaining(c -> sabot.remettre(c)); // le reste vas au sabot
 	}
 	
+	public NavigableSet<Joueur> getVainqueurs() {
+		NavigableSet<Joueur> res = new TreeSet<>(Collections.reverseOrder(
+				(j1, j2) -> {
+					int comparaison = j1.getKM() - j2.getKM();
+					if (comparaison == 0) {
+						comparaison = Integer.compare(j1.hashCode(), j2.hashCode());
+					}
+					return comparaison;
+				}
+			));
+		res.addAll(joueurs);
+		return res;
+	}
+	
+	private void afficherClassement() {
+		System.out.println("Le sabot a été vidé voici le classement:");
+		StringBuilder str = new StringBuilder();
+		str.append('[');
+		for (Iterator<Joueur> it = getVainqueurs().iterator(); it.hasNext();) {
+			Joueur j = it.next(); 
+			str.append(j.toString());
+			str.append(" -> ");
+			str.append(j.getKM());
+			if (it.hasNext())
+				str.append(", ");
+		}
+		str.append(']');
+		System.out.println(str.toString());
+	}
+	
 	public void lancer() {
 		Iterator<Joueur> it = joueurs.iterator();
 		if (!it.hasNext()) return;
@@ -79,24 +110,17 @@ public class Jeu {
 			}
 		}
 		
+		System.out.println();
 		if (sabot.isEmpty()) {
-			System.out.println("Le sabot a été vidé voici le classement: " + getVainqueurs());
+			afficherClassement();
 		} else {
 			System.out.println("Le jeu est terminé. " + j + " a gagné!");
 		}
 	}
 	
-	public Set<Joueur> getVainqueurs() {
-		NavigableSet<Joueur> res = new TreeSet<>(
-				(j1, j2) -> (j2.getKM() - (j1.getKM() + 1))
-			);
-		res.addAll(joueurs);
-		return res;
-	}
-	
 	public static void main(String[] args) {
 		Jeu jeu = new Jeu();
-		jeu.inscrire(new Joueur("1"));
+		jeu.inscrire(new Attaquant("1"));
 		jeu.inscrire(new Joueur("2"));
 		jeu.inscrire(new Joueur("3"));
 		jeu.lancer();

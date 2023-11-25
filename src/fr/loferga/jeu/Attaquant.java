@@ -1,38 +1,40 @@
 package fr.loferga.jeu;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-
-import fr.loferga.carte.Attaque;
-import fr.loferga.carte.Borne;
-import fr.loferga.carte.Botte;
-import fr.loferga.carte.Carte;
-import fr.loferga.carte.DebutLimite;
-import fr.loferga.carte.FinLimite;
-import fr.loferga.carte.Parade;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.TreeSet;
 
 public class Attaquant extends Joueur {
-	
-	private static Map<Class<? extends Carte>, Integer> valeursCarte = new HashMap<>();
-	
-	static {
-		valeursCarte.put(Attaque.class, 6);
-		valeursCarte.put(DebutLimite.class, 5);
-		valeursCarte.put(FinLimite.class, 4);
-		valeursCarte.put(Parade.class, 3);
-		valeursCarte.put(Borne.class, 2);
-		valeursCarte.put(Botte.class, 1);
-	}
-	
-	private static final Comparator<Coup> COMPARATOR = (c1, c2) -> {
-		return 1;
-	};
 
 	public Attaquant(String nom) {
 		super(nom);
 	}
 	
+	private static final String LABEL = "A";
 	
+	@Override
+	protected String getLabel() {
+		return LABEL;
+	}
+	
+	@Override
+	public Optional<Coup> selectionner() {
+		// du plus grand au plus petit
+		NavigableSet<Coup> coups = new TreeSet<>(Collections.reverseOrder());
+		coups.addAll(super.coupsPossibles(super.jeu.getJoueurs()));
+		return super.jouerPremierPossible(coups);
+	}
+	
+	@Override
+	public Coup rendreCarte() {
+		NavigableSet<Coup> coups = new TreeSet<>();
+		coups.addAll(super.coupsParDefault());
+		Iterator<Coup> it = coups.iterator();
+		Coup coup = it.next();
+		coup.jouer(this);
+		return coup;
+	}
 
 }

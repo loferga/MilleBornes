@@ -125,8 +125,7 @@ public class Joueur {
 		return coupsPossibles(singletonVide);
 	}
 	
-	public Optional<Coup> selectionner() {
-		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
+	protected final Optional<Coup> jouerPremierPossible(Set<Coup> coups) {
 		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
 			Coup next = it.next();
 			if (next.jouer(this)) {
@@ -136,10 +135,17 @@ public class Joueur {
 		return Optional.empty();
 	}
 	
+	public Optional<Coup> selectionner() {
+		Set<Coup> coups = coupsPossibles(jeu.getJoueurs());
+		return jouerPremierPossible(coups);
+	}
+	
 	public Coup rendreCarte() {
 		Set<Coup> coups = coupsParDefault();
 		Iterator<Coup> it = coups.iterator();
-		return it.next();
+		Coup next = it.next();
+		next.jouer(this);
+		return next;
 	}
 	
 	public Main getMain() {

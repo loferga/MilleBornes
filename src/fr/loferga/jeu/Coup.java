@@ -1,11 +1,29 @@
 package fr.loferga.jeu;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.loferga.carte.Attaque;
+import fr.loferga.carte.Borne;
+import fr.loferga.carte.Botte;
 import fr.loferga.carte.Carte;
 import fr.loferga.carte.DebutLimite;
+import fr.loferga.carte.FinLimite;
+import fr.loferga.carte.Parade;
 import fr.loferga.utils.NotNull;
 
-public class Coup {
+public class Coup implements Comparable<Coup> {
+	
+	protected static Map<Class<? extends Carte>, Integer> valeursCartes = new HashMap<>();
+	
+	static {
+		valeursCartes.put(Botte.class, 6);
+		valeursCartes.put(Attaque.class, 5);
+		valeursCartes.put(DebutLimite.class, 4);
+		valeursCartes.put(FinLimite.class, 3);
+		valeursCartes.put(Parade.class, 2);
+		valeursCartes.put(Borne.class, 1);
+	}
 	
 	private Carte carte;
 	private Joueur cible;
@@ -57,6 +75,12 @@ public class Coup {
 		return jouee;
 	}
 	
+	// fonction de test
+	@Override
+	public String toString() {
+		return carte.toString() + '/' + cible.toString();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coup) {
@@ -80,8 +104,25 @@ public class Coup {
 		return 31 * (carte.hashCode() + hashJoueur);
 	}
 	
-	public static void main(String[] args) {
+	@Override
+	public int compareTo(Coup other) {
+		Carte carteThis = this.carte;
+		Carte carteOther = other.getCarte();
+		int comparaison;
+		if (carteThis instanceof Borne borneThis && carteOther instanceof Borne borneOther) {
+			// cas comparaison borne à borne
+			comparaison = borneThis.getKm() - borneOther.getKm();
+		} else {
+			int valeurThis = valeursCartes.get(carteThis.getClass());
+			int valeurOther = valeursCartes.get(carteOther.getClass());
+			comparaison = valeurThis - valeurOther;
+		}
 		
+		if (comparaison == 0) {
+			comparaison = 1; // ne doit pas supprimer de coup
+		}
+		
+		return comparaison;
 	}
 	
 }

@@ -3,6 +3,7 @@ package fr.loferga.carte;
 import fr.loferga.jeu.Joueur;
 
 public abstract class Carte {
+	
 	private int nombre;
 
 	protected Carte(int nombre) {
