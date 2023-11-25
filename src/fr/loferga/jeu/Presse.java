@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeSet;
 
 import fr.loferga.carte.Borne;
@@ -47,10 +46,8 @@ public class Presse extends Joueur {
 	public Optional<Coup> selectionner() {
 		// du plus grand au plus petit
 		NavigableSet<Coup> coups = new TreeSet<>(Collections.reverseOrder(COMPARATOR));
-		Set<Coup> coupsPossibles = super.coupsPossibles(super.jeu.getJoueurs());
-		System.out.println("coups possibles: " + coupsPossibles);
-		coups.addAll(coupsPossibles);
-		System.out.println("\tcoups rangés: " + coups);		return super.jouerPremierPossible(coups);
+		coups.addAll(super.coupsPossibles(super.jeu.getJoueurs()));
+		return super.jouerPremierPossible(coups);
 	}
 	
 	@Override
