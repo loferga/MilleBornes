@@ -19,6 +19,7 @@ public class Jeu {
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	/* prise en charche d'un système de pile de défausse */
 	private Sabot sabot = new Sabot();
+	private Ordonnanceur ordonnanceur;
 	
 	public Set<Joueur> getJoueurs() {
 		return joueurs;
@@ -79,16 +80,14 @@ public class Jeu {
 	}
 	
 	public void lancer() {
-		Iterator<Joueur> it = joueurs.iterator();
-		if (!it.hasNext()) return;
+		ordonnanceur = new Ordonnanceur(joueurs);
 		
 		distribuerCartes();
 		for (Joueur j : joueurs)
 			System.out.println(j + ":" + j.getMain());
 		boolean finDePartie = sabot.isEmpty();
-		Joueur j = null;
+		Joueur j = ordonnanceur.courant();
 		while (!finDePartie) {
-			j = it.next();
 			
 			Carte cartePrise = sabot.piocher();
 			System.out.println("Le joueur "  + j + " prend la carte " + cartePrise);
@@ -103,8 +102,7 @@ public class Jeu {
 			
 			finDePartie = j.getKM() >= 1000;
 			
-			if (!it.hasNext())
-				it = joueurs.iterator();
+			j = ordonnanceur.prochain();
 			if (sabot.isEmpty() && (!sabot.restituer() || sabot.isEmpty())) {
 				finDePartie = true;
 			}
