@@ -1,9 +1,9 @@
 package fr.loferga.event;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.Set;
 
 public class EventManager {
 	
@@ -15,27 +15,27 @@ public class EventManager {
 	}
 	// ######
 	
-	private Map<Class<? extends Event>, ArrayList<Consumer<?>>> eventHandlers;
+	private Map<Class<? extends Event>, Set<EventExecutor<?>>> eventHandlers;
 	
 	private EventManager() {
-		eventHandlers = new HashMap<>();	
+		eventHandlers = new HashMap<>();
 	}
 	
-	public <E extends Event> void subscribe(Class<E> eventClass, Consumer<E> eventHandler) {
+	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<E> eventHandler) {
 		System.err.println(eventHandler.toString() + " subscribed");
-		ArrayList<Consumer<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new ArrayList<>());
+		Set<EventExecutor<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new HashSet<>());
 		handlers.add(eventHandler);
 	}
 	
 	public <E extends Event> void trigger(E e) {
-		ArrayList<Consumer<?>> toTrigger = eventHandlers.get(e.getClass());
+		Set<EventExecutor<?>> toTrigger = eventHandlers.get(e.getClass());
 		if (toTrigger == null) return;
 		
-		for (Consumer<?> executor : toTrigger) {
+		for (EventExecutor<?> executor : toTrigger) {
 			// the way Consumer<?> are subscribed doesn't need type check
 			@SuppressWarnings("unchecked")
-			Consumer<E> eventExecutor = (Consumer<E>) executor;
-			eventExecutor.accept(e);
+			EventExecutor<E> eventExecutor = (EventExecutor<E>) executor;
+			eventExecutor.execute(e);
 		}
 	}
 	
