@@ -27,5 +27,16 @@ public class EventExecutor<E extends Event> {
 			e1.printStackTrace();
 		}
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof EventExecutor<?> executor
+				&& this.method.equals(executor.method);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * (this.getClass().hashCode() + method.hashCode());
+	}
 
 }
