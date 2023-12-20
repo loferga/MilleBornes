@@ -1,10 +1,10 @@
 package fr.loferga.test_fonctionnels;
 
-import fr.loferga.carte.Attaque;
-import fr.loferga.carte.Botte;
-import fr.loferga.carte.Parade;
-import fr.loferga.carte.Probleme.Type;
-import fr.loferga.jeu.OldSabot;
+import fr.loferga.core.carte.Attaque;
+import fr.loferga.core.carte.Botte;
+import fr.loferga.core.carte.Parade;
+import fr.loferga.core.carte.Probleme.Type;
+import fr.loferga.core.jeu.OldSabot;
 
 public class TestSabot {
 	
