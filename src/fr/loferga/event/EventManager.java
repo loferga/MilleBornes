@@ -1,22 +1,11 @@
 package fr.loferga.event;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class EventManager {
-	
-	private static final Comparator<EventExecutor<?>> COMPARATOR =
-			(executorBase, executorOther) -> {
-				// use order in which enums contant are declared
-				int compare = executorBase.getPriority().compareTo(executorOther.getPriority());
-				if (compare == 0) {
-					compare = 1;
-				}
-				return compare;
-			};
 	
 	// ###### Singleton
 	private static final EventManager instance = new EventManager();
@@ -26,20 +15,70 @@ public class EventManager {
 	}
 	// ######
 	
-	private Map<Class<? extends Event>, SortedSet<EventExecutor<?>>> eventHandlers;
+	private static class EventPriorityList<T> implements Iterable<T> {
+		
+		private class EventPriorityListIterator implements Iterator<T> {
+			
+			private Iterator<ArrayList<T>> lit;
+			private Iterator<T> eit;
+			
+			public EventPriorityListIterator() {
+				lit = eventExecutors.iterator();
+			}
+
+			@Override
+			public boolean hasNext() {
+				if (eit != null && eit.hasNext()) return true;
+				while (eit == null || !eit.hasNext()) {
+					if (!lit.hasNext()) return false;
+					eit = lit.next().iterator();
+				}
+				return true;
+			}
+
+			@Override
+			public T next() {
+				assert hasNext();
+				return eit.next();
+			}
+			
+		}
+		
+		private ArrayList<ArrayList<T>> eventExecutors;
+		
+		public EventPriorityList() {
+			EventPriority[] priorities = EventPriority.values();
+			eventExecutors = new ArrayList<>(priorities.length);
+			for (int i = 0; i < priorities.length; i++) {
+				eventExecutors.add(new ArrayList<>());
+			}
+		}
+		
+		public void add(T executor, EventPriority priority) {
+			eventExecutors.get(priority.getSlot()).add(executor);
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return new EventPriorityListIterator();
+		}
+		
+	}
+	
+	private Map<Class<? extends Event>, EventPriorityList<EventExecutor<?>>> eventHandlers;
 	
 	private EventManager() {
 		eventHandlers = new HashMap<>();
 	}
 	
-	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<E> eventHandler) {
+	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<E> eventHandler, EventPriority priority) {
 		System.err.println(eventHandler.toString() + " subscribed");
-		SortedSet<EventExecutor<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new TreeSet<>(COMPARATOR));
-		handlers.add(eventHandler);
+		EventPriorityList<EventExecutor<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new EventPriorityList<>());
+		handlers.add(eventHandler, priority);
 	}
 	
 	public <E extends Event> void trigger(E e) {
-		SortedSet<EventExecutor<?>> toTrigger = eventHandlers.get(e.getClass());
+		EventPriorityList<EventExecutor<?>> toTrigger = eventHandlers.get(e.getClass());
 		if (toTrigger == null) return;
 		
 		for (EventExecutor<?> executor : toTrigger) {

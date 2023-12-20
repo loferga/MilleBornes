@@ -44,7 +44,8 @@ public class SuccessRegister {
 				Class<? extends Event> eventType = (Class<? extends Event>) parameterTypes[0];
 				eventManager.subscribe(
 						eventType,
-						new EventExecutor<>(eventHandlerAnnotation, method, success)
+						new EventExecutor<>(method, success),
+						eventHandlerAnnotation.priority()
 				);
 			}
 		}
