@@ -11,11 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import fr.loferga.carte.Attaque;
-import fr.loferga.carte.Botte;
-import fr.loferga.carte.Carte;
-import fr.loferga.carte.Parade;
-import fr.loferga.carte.Probleme.Type;
+import fr.loferga.core.carte.Attaque;
+import fr.loferga.core.carte.Botte;
+import fr.loferga.core.carte.Carte;
+import fr.loferga.core.carte.Parade;
+import fr.loferga.core.carte.Probleme.Type;
+import fr.loferga.core.jeu.OldSabot;
 
 class SabotTest {
 	

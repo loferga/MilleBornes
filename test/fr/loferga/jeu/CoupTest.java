@@ -6,13 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.loferga.carte.Attaque;
-import fr.loferga.carte.Borne;
-import fr.loferga.carte.Botte;
-import fr.loferga.carte.DebutLimite;
-import fr.loferga.carte.FinLimite;
-import fr.loferga.carte.Parade;
-import fr.loferga.carte.Probleme.Type;
+import fr.loferga.core.carte.Attaque;
+import fr.loferga.core.carte.Borne;
+import fr.loferga.core.carte.Botte;
+import fr.loferga.core.carte.DebutLimite;
+import fr.loferga.core.carte.FinLimite;
+import fr.loferga.core.carte.Parade;
+import fr.loferga.core.carte.Probleme.Type;
+import fr.loferga.core.jeu.Coup;
+import fr.loferga.core.jeu.Joueur;
 
 class CoupTest {
 	

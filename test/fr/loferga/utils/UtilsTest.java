@@ -11,8 +11,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.loferga.carte.Carte;
-import fr.loferga.carte.JeuDeCartes;
+import fr.loferga.core.carte.Carte;
+import fr.loferga.core.carte.JeuDeCartes;
 
 class UtilsTest {
 	

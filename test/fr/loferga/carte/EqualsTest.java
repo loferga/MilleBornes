@@ -5,7 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-import fr.loferga.carte.Probleme.Type;
+import fr.loferga.core.carte.Attaque;
+import fr.loferga.core.carte.Borne;
+import fr.loferga.core.carte.Botte;
+import fr.loferga.core.carte.DebutLimite;
+import fr.loferga.core.carte.FinLimite;
+import fr.loferga.core.carte.Parade;
+import fr.loferga.core.carte.Probleme.Type;
 
 class EqualsTest {
 	

@@ -3,8 +3,6 @@ package fr.loferga.core.success;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 
 import fr.loferga.core.carte.Botte;
 import fr.loferga.core.carte.Probleme.Type;

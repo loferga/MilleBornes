@@ -8,7 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.loferga.carte.Carte;
+import fr.loferga.core.carte.Carte;
+import fr.loferga.core.jeu.Jeu;
+import fr.loferga.core.jeu.Joueur;
 
 class JeuTest {
 	
