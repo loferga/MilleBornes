@@ -2,6 +2,7 @@ package fr.loferga.core.success;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import fr.loferga.core.carte.Botte;
@@ -15,7 +16,27 @@ import fr.loferga.core.jeu.Coup;
 import fr.loferga.core.jeu.Joueur;
 import fr.loferga.utils.LoggerSupplier;
 
-public class SuccessRegister {
+public class SuccessRegister implements Iterable<Success> {
+	
+	private class RegisteredSuccessIterator implements Iterator<Success> {
+		
+		private Iterator<Success> it;
+		
+		public RegisteredSuccessIterator() {
+			it = registeredSuccess.iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return it.hasNext();
+		}
+
+		@Override
+		public Success next() {
+			return it.next();
+		}
+		
+	}
 	
 	private EventManager eventManager;
 	private Set<Success> registeredSuccess;
@@ -55,6 +76,11 @@ public class SuccessRegister {
 	public boolean register(Success success) {
 		registerListeners(success);
 		return registeredSuccess.add(success);
+	}
+	
+	@Override
+	public Iterator<Success> iterator() {
+		return new RegisteredSuccessIterator();
 	}
 	
 	public static void main(String[] args) {
