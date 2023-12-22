@@ -5,16 +5,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import fr.loferga.core.carte.Botte;
-import fr.loferga.core.carte.Probleme.Type;
+import fr.loferga.Main;
 import fr.loferga.core.event.Event;
 import fr.loferga.core.event.EventExecutor;
 import fr.loferga.core.event.EventHandler;
 import fr.loferga.core.event.EventManager;
-import fr.loferga.core.event.jeu.CarteJoueeEvent;
-import fr.loferga.core.jeu.Coup;
-import fr.loferga.core.jeu.Joueur;
-import fr.loferga.utils.LoggerSupplier;
 
 public class SuccessRegister implements Iterable<Success> {
 	
@@ -52,10 +47,14 @@ public class SuccessRegister implements Iterable<Success> {
 	 * @param success instance to get listeners from
 	 */
 	private void registerListeners(Success success) {
-		for (Method method : success.getClass().getDeclaredMethods()) {
+		Main.logger.fine(success.toString() + " registered");
+		Method[] methods = success.getClass().getDeclaredMethods();
+		EventHandler eventHandlerAnnotation;
+		Class<?>[] parameterTypes;
+		for (Method method : methods) {
 			// return null if EventHandler is not present
-			EventHandler eventHandlerAnnotation = method.getDeclaredAnnotation(EventHandler.class);
-			Class<?>[] parameterTypes = method.getParameterTypes();
+			eventHandlerAnnotation = method.getDeclaredAnnotation(EventHandler.class);
+			parameterTypes = method.getParameterTypes();
 			if (eventHandlerAnnotation != null                         // has EventHandler Annotation
 					&& method.getReturnType() == void.class            // return void
 					&& parameterTypes.length == 1                      // takes 1 argument
@@ -81,14 +80,6 @@ public class SuccessRegister implements Iterable<Success> {
 	@Override
 	public Iterator<Success> iterator() {
 		return new RegisteredSuccessIterator();
-	}
-	
-	public static void main(String[] args) {
-		LoggerSupplier.debugMode();
-		SuccessRegister successRegister = new SuccessRegister(EventManager.get());
-		successRegister.register(new ExampleSuccess());
-		successRegister.register(new ExampleSuccess2());
-		new CarteJoueeEvent(new Coup(new Botte(1, Type.ACCIDENT), new Joueur("1")));
 	}
 	
 }

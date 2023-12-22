@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import fr.loferga.utils.LoggerSupplier;
+import fr.loferga.Main;
 
 public class EventManager {
 	
@@ -74,7 +74,7 @@ public class EventManager {
 	}
 	
 	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<E> eventHandler, EventPriority priority) {
-		LoggerSupplier.get().fine(eventHandler.toString() + " subscribed");
+		Main.logger.fine(eventHandler.toString() + " subscribed");
 		EventPriorityList<EventExecutor<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new EventPriorityList<>());
 		handlers.add(eventHandler, priority);
 	}
