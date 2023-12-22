@@ -1,6 +1,6 @@
 package fr.loferga.core.event;
 
-public abstract class Event implements Listener {
+public abstract class Event {
 	
 	private EventManager eventManager;
 	
