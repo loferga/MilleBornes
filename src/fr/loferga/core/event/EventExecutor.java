@@ -21,6 +21,17 @@ public class EventExecutor<E extends Event> {
 		}
 	}
 	
+	public static <E extends Event> EventExecutor<E> castEventExecutor(EventExecutor<? super Event> from) {
+		return new EventExecutor<E>(from.method, from.instance) {
+
+			@Override
+			public void execute(E e) {
+				from.execute(e);
+			}
+			
+		};
+	}
+	
 	@Override
 	public String toString() {
 		return method.toString();

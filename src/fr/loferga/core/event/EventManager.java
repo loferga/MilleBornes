@@ -67,26 +67,25 @@ public class EventManager {
 		
 	}
 	
-	private Map<Class<? extends Event>, EventPriorityList<EventExecutor<?>>> eventHandlers;
+	private Map<Class<? extends Event>, EventPriorityList<EventExecutor<? super Event>>> eventHandlers;
 	
 	private EventManager() {
 		eventHandlers = new HashMap<>();
 	}
 	
-	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<E> eventHandler, EventPriority priority) {
+	public <E extends Event> void subscribe(Class<E> eventClass, EventExecutor<? super Event> eventHandler, EventPriority priority) {
 		Main.logger.fine(eventHandler.toString() + " subscribed");
-		EventPriorityList<EventExecutor<?>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new EventPriorityList<>());
+		EventPriorityList<EventExecutor<? super Event>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new EventPriorityList<>());
 		handlers.add(eventHandler, priority);
 	}
 	
 	public <E extends Event> void trigger(E e) {
-		EventPriorityList<EventExecutor<?>> toTrigger = eventHandlers.get(e.getClass());
+		EventPriorityList<EventExecutor<? super Event>> toTrigger = eventHandlers.get(e.getClass());
 		if (toTrigger == null) return;
 		
-		for (EventExecutor<?> executor : toTrigger) {
+		for (EventExecutor<? super Event> executor : toTrigger) {
 			// the way Consumer<?> are subscribed doesn't need type check
-			@SuppressWarnings("unchecked")
-			EventExecutor<E> eventExecutor = (EventExecutor<E>) executor;
+			EventExecutor<E> eventExecutor = EventExecutor.castEventExecutor(executor);
 			eventExecutor.execute(e);
 		}
 	}
