@@ -1,5 +1,6 @@
 package fr.loferga.core.event;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import fr.loferga.Main;
 
 public class EventManager {
 	
-	// ###### Singleton
+	// ###### Singleton Pattern
 	private static final EventManager instance = new EventManager();
 	
 	public static EventManager get() {
@@ -77,6 +78,35 @@ public class EventManager {
 		Main.logger.fine(eventHandler.toString() + " subscribed");
 		EventPriorityList<EventExecutor<? super Event>> handlers = eventHandlers.computeIfAbsent(eventClass, k -> new EventPriorityList<>());
 		handlers.add(eventHandler, priority);
+	}
+	
+	/**
+	 * subscribe all function in listener that are marked with EventHandler annotation and fit
+	 * the requirements to the appropriate Event
+	 * @param success instance to get listeners from
+	 */
+	public void subscribeAll(Listener success) {
+		Method[] methods = success.getClass().getDeclaredMethods();
+		EventHandler eventHandlerAnnotation;
+		Class<?>[] parameterTypes;
+		for (Method method : methods) {
+			// return null if EventHandler is not present
+			eventHandlerAnnotation = method.getDeclaredAnnotation(EventHandler.class);
+			parameterTypes = method.getParameterTypes();
+			if (eventHandlerAnnotation != null                         // has EventHandler Annotation
+					&& method.getReturnType() == void.class            // return void
+					&& parameterTypes.length == 1                      // takes 1 argument
+					&& Event.class.isAssignableFrom(parameterTypes[0]) // this single argument is a subclass of Event
+				) {
+				// register this method as EventExecutor
+				Class<? extends Event> eventType = parameterTypes[0].asSubclass(Event.class);
+				subscribe(
+						eventType,
+						new EventExecutor<>(method, success),
+						eventHandlerAnnotation.priority()
+				);
+			}
+		}
 	}
 	
 	public <E extends Event> void trigger(E e) {
