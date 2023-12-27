@@ -1,7 +1,7 @@
 package fr.loferga.core.carte;
 
 import fr.loferga.core.carte.Probleme.Type;
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 public class DebutLimite extends Limite {
 

@@ -1,6 +1,6 @@
 package fr.loferga.core.carte;
 
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 public class FinLimite extends Limite {
 

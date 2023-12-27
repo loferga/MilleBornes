@@ -10,6 +10,7 @@ import fr.loferga.core.carte.Carte;
 import fr.loferga.core.carte.DebutLimite;
 import fr.loferga.core.carte.FinLimite;
 import fr.loferga.core.carte.Parade;
+import fr.loferga.core.jeu.joueur.Joueur;
 import fr.loferga.utils.NotNull;
 
 public class Coup implements Comparable<Coup> {

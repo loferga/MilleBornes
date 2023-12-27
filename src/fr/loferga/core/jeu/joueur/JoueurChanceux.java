@@ -1,10 +1,11 @@
-package fr.loferga.core.jeu;
+package fr.loferga.core.jeu.joueur;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import fr.loferga.core.jeu.Coup;
 import fr.loferga.utils.Utils;
 
 public class JoueurChanceux extends Joueur {

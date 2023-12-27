@@ -1,9 +1,11 @@
-package fr.loferga.core.jeu;
+package fr.loferga.core.jeu.joueur;
 
 import java.util.Collections;
 import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.TreeSet;
+
+import fr.loferga.core.jeu.Coup;
 
 public class Attaquant extends Joueur {
 

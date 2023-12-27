@@ -1,4 +1,4 @@
-package fr.loferga.core.jeu;
+package fr.loferga.core.jeu.joueur;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import fr.loferga.core.carte.Borne;
 import fr.loferga.core.carte.Carte;
+import fr.loferga.core.jeu.Coup;
 
 public class Presse extends Joueur {
 	

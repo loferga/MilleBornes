@@ -4,9 +4,12 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import fr.loferga.core.account.Account;
 import fr.loferga.core.event.EventManager;
-import fr.loferga.core.success.ExampleSuccess;
-import fr.loferga.core.success.ExampleSuccess2;
+import fr.loferga.core.jeu.Game;
+import fr.loferga.core.jeu.Jeu;
+import fr.loferga.core.jeu.joueur.Joueur;
+import fr.loferga.core.success.AttaqueJoueeSuccess;
 import fr.loferga.core.success.SuccessRegister;
 
 public class Main {
@@ -23,9 +26,16 @@ public class Main {
 	
 	public static void main(String[] args) {
 		debugMode();
-		SuccessRegister successRegister = new SuccessRegister(EventManager.get());
-		successRegister.register(new ExampleSuccess());
-		successRegister.register(new ExampleSuccess2());
+		SuccessRegister successRegister = new SuccessRegister();
+		AttaqueJoueeSuccess exSuccess = new AttaqueJoueeSuccess();
+		successRegister.register(exSuccess);
+		EventManager.get().subscribeAll(exSuccess);
+		
+		Game game = new Jeu();
+		game.add(new Joueur("2"));
+		Account account = Account.createNewAccount("Jean");
+		game.link(new Joueur(account.getName()), account);
+		game.start();
 	}
 	
 }

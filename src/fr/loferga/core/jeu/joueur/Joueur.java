@@ -1,4 +1,4 @@
-package fr.loferga.core.jeu;
+package fr.loferga.core.jeu.joueur;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import fr.loferga.core.account.Profile;
+import fr.loferga.core.account.UserProfile;
 import fr.loferga.core.carte.Attaque;
 import fr.loferga.core.carte.Bataille;
 import fr.loferga.core.carte.Borne;
@@ -17,6 +19,10 @@ import fr.loferga.core.carte.FinLimite;
 import fr.loferga.core.carte.Limite;
 import fr.loferga.core.carte.Parade;
 import fr.loferga.core.carte.Probleme.Type;
+import fr.loferga.core.jeu.Coup;
+import fr.loferga.core.jeu.Jeu;
+import fr.loferga.core.jeu.Main;
+import fr.loferga.core.jeu.MainAsList;
 import fr.loferga.utils.Pile;
 import fr.loferga.utils.PileAsLinkedList;
 import fr.loferga.utils.Utils;
@@ -62,6 +68,22 @@ public class Joueur {
 
 	public void setJeu(Jeu jeu) {
 		this.jeu = jeu;
+	}
+	
+	public boolean isPlaying() {
+		return jeu != null;
+	}
+	
+	public Profile getProfile() {
+		if (!isPlaying()) return null;
+		return jeu.getProfile(this);
+	}
+	
+	public UserProfile getUser() {
+		Profile profile = getProfile();
+		if (profile != null && profile instanceof UserProfile userProfile)
+			return userProfile;
+		return null;
 	}
 	
 	public int getKM() {

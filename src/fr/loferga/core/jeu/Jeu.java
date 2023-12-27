@@ -1,46 +1,70 @@
 package fr.loferga.core.jeu;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
+import fr.loferga.core.account.Bot;
+import fr.loferga.core.account.Profile;
+import fr.loferga.core.account.UserProfile;
 import fr.loferga.core.carte.Carte;
 import fr.loferga.core.carte.JeuDeCartes;
+import fr.loferga.core.jeu.joueur.Joueur;
 
-public class Jeu {
+public class Jeu implements Game {
 	
 	private static final int NOMBRE_CARTE_PIOCHEE = 6;
 	
-	private Set<Joueur> joueurs = new LinkedHashSet<>();
+	private HashMap<Joueur, Profile> profiles = new HashMap<>();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	/* prise en charche d'un système de pile de défausse */
 	private Sabot sabot = new Sabot();
 	private Ordonnanceur ordonnanceur;
 	
 	public Set<Joueur> getJoueurs() {
-		return joueurs;
+		return profiles.keySet();
 	}
 	
 	public Sabot getSabot() {
 		return sabot;
 	}
 	
-	public boolean inscrire(Joueur j) {
-		boolean ajoutee = joueurs.add(j);
-		if (ajoutee) {
-			j.setJeu(this);
-		}
-		return ajoutee;
+	@Override
+	public boolean isLinked(Joueur j) {
+		return profiles.containsKey(j);
+	}
+	
+	private boolean put(Joueur j, Profile p) {
+		if (isLinked(j)) return false;
+		profiles.put(j, p);
+		j.setJeu(this);
+		return true;
+	}
+	
+	@Override
+	public boolean add(Joueur j) {
+		return put(j, new Bot());
+	}
+	
+	@Override
+	public boolean link(Joueur j, UserProfile p) {
+		return put(j, p);
+	}
+	
+	@Override
+	public Profile getProfile(Joueur j) {
+		assert isLinked(j);
+		return profiles.get(j);
 	}
 	
 	public void distribuerCartes() {
 		Iterator<Carte> iteratorCartes = jeuDeCartes.iterator();
 		// chaque joueur pioche 6 cartes
-		for (Joueur j : joueurs) {
+		for (Joueur j : getJoueurs()) {
 			for (int i = 0; i < NOMBRE_CARTE_PIOCHEE; i++) {
 				Carte c = iteratorCartes.next();
 				j.getMain().prendre(c);
@@ -59,7 +83,7 @@ public class Jeu {
 					return comparaison;
 				}
 			));
-		res.addAll(joueurs);
+		res.addAll(getJoueurs());
 		return res;
 	}
 	
@@ -79,7 +103,9 @@ public class Jeu {
 		System.out.println(str.toString());
 	}
 	
-	public void lancer() {
+	@Override
+	public void start() {
+		Set<Joueur> joueurs = getJoueurs();
 		ordonnanceur = new Ordonnanceur(joueurs);
 		
 		distribuerCartes();
@@ -114,14 +140,6 @@ public class Jeu {
 		} else {
 			System.out.println("Le jeu est terminé. " + j + " a gagné!");
 		}
-	}
-	
-	public static void main(String[] args) {
-		Jeu jeu = new Jeu();
-		jeu.inscrire(new Experimente("1"));
-		jeu.inscrire(new Joueur("2"));
-		jeu.inscrire(new Joueur("3"));
-		jeu.lancer();
 	}
 	
 }

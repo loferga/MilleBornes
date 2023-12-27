@@ -1,4 +1,4 @@
-package fr.loferga.core.jeu;
+package fr.loferga.core.jeu.joueur;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,6 +16,8 @@ import fr.loferga.core.carte.Carte;
 import fr.loferga.core.carte.DebutLimite;
 import fr.loferga.core.carte.FinLimite;
 import fr.loferga.core.carte.Parade;
+import fr.loferga.core.jeu.Coup;
+import fr.loferga.core.jeu.Main;
 
 public class Experimente extends Joueur {
 	

@@ -3,6 +3,8 @@ package fr.loferga.core.jeu;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+import fr.loferga.core.jeu.joueur.Joueur;
+
 public class Ordonnanceur {
 	
 	private Joueur[] joueurs;

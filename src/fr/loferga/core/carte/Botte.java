@@ -3,7 +3,7 @@ package fr.loferga.core.carte;
 import java.util.EnumMap;
 import java.util.Map;
 
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 public class Botte extends Probleme {
 	
