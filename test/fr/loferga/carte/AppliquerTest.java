@@ -14,7 +14,7 @@ import fr.loferga.core.carte.DebutLimite;
 import fr.loferga.core.carte.Parade;
 import fr.loferga.core.carte.Probleme.Type;
 import fr.loferga.core.jeu.Jeu;
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 class AppliquerTest {
 	
@@ -24,7 +24,7 @@ class AppliquerTest {
 	void before_each() {
 		j = new Joueur("Jean");
 		Jeu jeu = new Jeu();
-		jeu.inscrire(j);
+		jeu.add(j);
 	}
 	
 	private static final Carte FEU_VERT = new Parade(1, Type.FEU);

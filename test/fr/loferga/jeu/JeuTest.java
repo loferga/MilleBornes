@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.loferga.core.carte.Carte;
 import fr.loferga.core.jeu.Jeu;
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 class JeuTest {
 	
@@ -22,9 +22,9 @@ class JeuTest {
 	@BeforeEach
 	void beforeEach() throws Exception {
 		jeu = new Jeu();
-		jeu.inscrire(j1);
-		jeu.inscrire(j2);
-		jeu.inscrire(j3);
+		jeu.add(j1);
+		jeu.add(j2);
+		jeu.add(j3);
 	}
 
 	@Test

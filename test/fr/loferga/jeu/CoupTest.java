@@ -14,7 +14,7 @@ import fr.loferga.core.carte.FinLimite;
 import fr.loferga.core.carte.Parade;
 import fr.loferga.core.carte.Probleme.Type;
 import fr.loferga.core.jeu.Coup;
-import fr.loferga.core.jeu.Joueur;
+import fr.loferga.core.jeu.joueur.Joueur;
 
 class CoupTest {
 	
