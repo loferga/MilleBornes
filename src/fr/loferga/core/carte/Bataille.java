@@ -8,11 +8,16 @@ public abstract class Bataille extends Probleme {
 		super(nombre, type);
 	}
 	
-	protected abstract boolean appliquerBataille(Joueur j, Bataille sommet);
+	protected abstract boolean batailleEstApplicable(Joueur j, Bataille sommet);
 	
 	@Override
-	public boolean appliquer(Joueur j) {
-		return this.appliquerBataille(j, j.sommetBataille());
+	public boolean estApplicable(Joueur j) {
+		return this.batailleEstApplicable(j, j.sommetBataille());
+	}
+	
+	@Override
+	public void appliquer(Joueur j) {
+		j.getBatailles().empiler(this);
 	}
 
 }

@@ -10,16 +10,11 @@ public class DebutLimite extends Limite {
 	}
 	
 	@Override
-	public boolean appliquer(Joueur j) {
-		boolean ajoutee = false;
-		if (!j.estBloque()
+	public boolean estApplicable(Joueur j) {
+		return !j.estBloque()
 				&& !j.possedeBotte(Type.FEU)
-				&& !super.derniereDebutLimite(j)) {
-			j.getLimites().empiler(this);
-			ajoutee = true;
-		}
-		return ajoutee;
-	}	
+				&& !super.derniereDebutLimite(j);
+	}
 	
 	@Override
 	public String toString() {

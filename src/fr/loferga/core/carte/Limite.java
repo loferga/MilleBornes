@@ -8,6 +8,10 @@ public abstract class Limite extends Carte {
 		super(nombre);
 	}
 	
+	@Override
+	public void appliquer(Joueur j) {
+		j.getLimites().empiler(this);
+	}
 	
 	protected boolean derniereDebutLimite(Joueur j) {
 		if (j.getLimites().isEmpty()) return false;

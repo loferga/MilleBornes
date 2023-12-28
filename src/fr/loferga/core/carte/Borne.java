@@ -12,15 +12,15 @@ public class Borne extends Carte {
 	}
 	
 	@Override
-	public boolean appliquer(Joueur j) {
-		boolean ajoutee = false;
-		if (!j.estBloque()
+	public boolean estApplicable(Joueur j) {
+		return !j.estBloque()
 				&& km <= j.getLimite()
-				&& (j.getKM() + km <= 1000)) {
-			j.getBornes().add(this);
-			ajoutee = true;
-		}
-		return ajoutee;
+				&& (j.getKM() + km <= 1000);
+	}
+	
+	@Override
+	public void appliquer(Joueur j) {
+		j.getBornes().add(this);
 	}
 	
 	public int getKm() {

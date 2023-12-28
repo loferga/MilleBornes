@@ -157,7 +157,8 @@ public class Joueur {
 	protected final Optional<Coup> jouerPremierPossible(Collection<Coup> coups) {
 		for (Iterator<Coup> it = coups.iterator(); it.hasNext();) {
 			Coup next = it.next();
-			if (next.jouer(this)) {
+			if (next.estValide(this)) {
+				next.jouer(this);
 				return Optional.of(next);
 			}
 		}

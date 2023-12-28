@@ -9,13 +9,8 @@ public class FinLimite extends Limite {
 	}
 	
 	@Override
-	public boolean appliquer(Joueur j) {
-		boolean ajoutee = false;
-		if (super.derniereDebutLimite(j)) {
-			j.getLimites().empiler(this);
-			ajoutee = true;
-		}
-		return ajoutee;
+	public boolean estApplicable(Joueur j) {
+		return super.derniereDebutLimite(j);
 	}
 	
 	@Override

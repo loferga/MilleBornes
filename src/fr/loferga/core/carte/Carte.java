@@ -18,7 +18,9 @@ public abstract class Carte {
 		this.nombre = nombre;
 	}
 	
-	public abstract boolean appliquer(Joueur j);
+	public abstract boolean estApplicable(Joueur j);
+	
+	public abstract void appliquer(Joueur j);
 	
 	@Override
 	public boolean equals(Object other) {

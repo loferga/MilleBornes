@@ -60,7 +60,7 @@ public abstract class UserProfile extends Profile implements Serializable {
 	
 	protected final void createBlankSuccessMap() {
 		for (Success s : SuccessRegister.get()) {
-			this.success.put(s.clone());
+			putSuccess(s.clone());
 		}
 	}
 	

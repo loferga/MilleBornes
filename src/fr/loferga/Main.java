@@ -26,7 +26,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		debugMode();
-		SuccessRegister successRegister = new SuccessRegister();
+		SuccessRegister successRegister = SuccessRegister.get();
 		AttaqueJoueeSuccess exSuccess = new AttaqueJoueeSuccess();
 		successRegister.register(exSuccess);
 		EventManager.get().subscribeAll(exSuccess);

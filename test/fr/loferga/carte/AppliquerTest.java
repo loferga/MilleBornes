@@ -35,20 +35,31 @@ class AppliquerTest {
 	private static final Carte PANNE = new Attaque(1, Type.ESSENCE);
 	private static final Carte REPARATION = new Parade(1, Type.ACCIDENT);
 	private static final Carte ESSENCE = new Parade(1, Type.ESSENCE);
-
+	
 	@Test
-	void test_appliquer() {
-		assertTrue(FEU_VERT.appliquer(j));
-		assertFalse(FEU_VERT.appliquer(j));
-		assertTrue(FEU_ROUGE.appliquer(j));
-		assertFalse(BORNE_CENT.appliquer(j));
-		assertTrue(VEHICULE_PRIORITAIRE.appliquer(j));
-		assertTrue(BORNE_CENT.appliquer(j));
-		assertTrue(BORNE_CENT.appliquer(j));
-		assertFalse(LIMITE.appliquer(j));
-		assertTrue(PANNE.appliquer(j));
-		assertFalse(REPARATION.appliquer(j));
-		assertTrue(ESSENCE.appliquer(j));
+	void test_est_applicable() {
+		assertTrue(FEU_VERT.estApplicable(j));
+		FEU_VERT.appliquer(j);
+		assertFalse(FEU_VERT.estApplicable(j));
+		
+		assertTrue(FEU_ROUGE.estApplicable(j));
+		FEU_ROUGE.appliquer(j);
+		assertFalse(BORNE_CENT.estApplicable(j));
+		
+		assertTrue(VEHICULE_PRIORITAIRE.estApplicable(j));
+		VEHICULE_PRIORITAIRE.appliquer(j);
+		assertTrue(BORNE_CENT.estApplicable(j));
+		BORNE_CENT.appliquer(j);
+		assertTrue(BORNE_CENT.estApplicable(j));
+		BORNE_CENT.appliquer(j);
+		assertFalse(LIMITE.estApplicable(j));
+		
+		assertTrue(PANNE.estApplicable(j));
+		PANNE.appliquer(j);
+		assertFalse(REPARATION.estApplicable(j));
+		
+		assertTrue(ESSENCE.estApplicable(j));
+		ESSENCE.appliquer(j);
 	}
 
 }

@@ -23,13 +23,9 @@ public class Parade extends Bataille {
 	}
 
 	@Override
-	public boolean appliquerBataille(Joueur j, Bataille sommet) {
-		if (sommet.getClass() == Attaque.class
-				&& sommet.getType() == super.getType()) {
-			j.getBatailles().empiler(this);
-			return true;
-		}
-		return false;
+	public boolean batailleEstApplicable(Joueur j, Bataille sommet) {
+		return sommet.getClass() == Attaque.class
+				&& sommet.getType() == super.getType();
 	}
 	
 	@Override

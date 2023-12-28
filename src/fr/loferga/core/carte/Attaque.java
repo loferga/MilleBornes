@@ -23,11 +23,9 @@ public class Attaque extends Bataille {
 	}
 
 	@Override
-	public boolean appliquerBataille(Joueur j, Bataille sommet) {
-		if (j.estBloque() || j.possedeBotte(super.getType())) return false;
-		
-		j.getBatailles().empiler(this);
-		return true;
+	public boolean batailleEstApplicable(Joueur j, Bataille sommet) {
+		return !j.estBloque()
+				&& !j.possedeBotte(super.getType());
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import fr.loferga.core.carte.Carte;
 import fr.loferga.core.carte.DebutLimite;
 import fr.loferga.core.carte.FinLimite;
 import fr.loferga.core.carte.Parade;
+import fr.loferga.core.event.jeu.CarteJoueeEvent;
 import fr.loferga.core.jeu.joueur.Joueur;
 import fr.loferga.utils.NotNull;
 
@@ -55,25 +56,18 @@ public class Coup implements Comparable<Coup> {
 		return equals;
 	}
 	
-	public boolean jouer(Joueur joueur) {
-		boolean jouee = false;
+	public void jouer(Joueur joueur) {
+		new CarteJoueeEvent(this, joueur);
 		
 		if (cible == null) {
-			System.out.println("le joueur " + joueur + " repose la carte " + carte + " dans le sabot");
 			joueur.getJeu().getSabot().defausser(carte);
-			jouee = true;
+			System.out.println("le joueur " + joueur + " repose la carte " + carte + " dans le sabot");
 		} else {
-			jouee = carte.appliquer(cible);
-			if (jouee) {
-				System.out.println("le joueur " + joueur + " joue la carte " + carte + " sur " + cible);
-			}
+			carte.appliquer(cible);
+			System.out.println("le joueur " + joueur + " joue la carte " + carte + " sur " + cible);
 		}
 		
-		if (jouee) {
-			joueur.getMain().jouer(carte);
-		}
-		
-		return jouee;
+		joueur.getMain().jouer(carte);
 	}
 	
 	// fonction de test
