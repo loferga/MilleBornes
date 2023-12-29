@@ -46,6 +46,10 @@ public class SuccessRegister implements Iterable<Success> {
 		return registeredSuccess.add(success);
 	}
 	
+	public int size() {
+		return registeredSuccess.size();
+	}
+	
 	@Override
 	public Iterator<Success> iterator() {
 		return new RegisteredSuccessIterator();

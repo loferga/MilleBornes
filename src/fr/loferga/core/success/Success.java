@@ -5,6 +5,8 @@ import fr.loferga.core.success.progress.Progress;
 
 public abstract class Success implements Listener, Cloneable {
 	
+	public abstract String getName();
+	
 	public abstract void initProgress();
 	
 	public abstract Progress getProgress();
@@ -18,7 +20,7 @@ public abstract class Success implements Listener, Cloneable {
 	
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName();
+		return getName();
 	}
 	
 	@Override

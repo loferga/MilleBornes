@@ -8,10 +8,12 @@ public class Guest extends UserProfile {
 	public Guest() {
 		super("guest_" + Integer.toString(guest_id));
 		guest_id++;
+		super.createBlankSuccessMap();
 	}
 	
 	public Guest(String name) {
 		super(name);
+		super.createBlankSuccessMap();
 	}
 
 }
