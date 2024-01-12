@@ -23,3 +23,9 @@
 hs_err_pid*
 replay_pid*
 /bin/
+
+# Eclipse settings
+.settings/
+
+# VsCode settings
+.vscode/
